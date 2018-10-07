@@ -1,4 +1,4 @@
-package net.homenet;
+package net.homenet.s1;
 
 import javax.annotation.Resource;
 import java.util.concurrent.atomic.AtomicInteger;
