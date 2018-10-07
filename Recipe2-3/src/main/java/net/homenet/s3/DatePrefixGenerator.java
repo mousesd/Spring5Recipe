@@ -4,11 +4,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@SuppressWarnings("SameParameterValue")
 public class DatePrefixGenerator implements PrefixGenerator {
 
     private DateFormat formatter;
 
-    public void setPattern(String pattern) {
+    void setPattern(String pattern) {
         formatter = new SimpleDateFormat(pattern);
     }
 

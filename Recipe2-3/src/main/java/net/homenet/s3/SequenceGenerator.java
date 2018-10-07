@@ -12,10 +12,6 @@ class SequenceGenerator {
     private int initial;
     private final AtomicInteger counter = new AtomicInteger();
 
-    void setPrefixGenerators(PrefixGenerator[] prefixGenerators) {
-        this.prefixGenerators = prefixGenerators;
-    }
-
     void setSuffix(String suffix) {
         this.suffix = suffix;
     }
