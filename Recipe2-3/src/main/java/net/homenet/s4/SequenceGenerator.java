@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-@SuppressWarnings("SameParameterValue")
+@SuppressWarnings({"SameParameterValue", "SpringJavaAutowiredMembersInspection"})
 class SequenceGenerator {
     private PrefixGenerator prefixGenerator;
     private String suffix;
