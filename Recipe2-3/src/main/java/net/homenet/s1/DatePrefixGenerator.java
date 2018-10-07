@@ -1,4 +1,4 @@
-package net.homenet;
+package net.homenet.s1;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
