@@ -1,4 +1,4 @@
-package net.homenet;
+package net.homenet.s1;
 
 public class Disc extends Product {
     private int capacity;

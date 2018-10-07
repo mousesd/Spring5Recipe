@@ -1,4 +1,4 @@
-package net.homenet;
+package net.homenet.s2;
 
 import java.text.DecimalFormat;
 
