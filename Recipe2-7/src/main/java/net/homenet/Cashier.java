@@ -16,7 +16,7 @@ public class Cashier {
         this.messageSource = messageSource;
     }
 
-    public String checkout() {
+    String checkout() {
         return messageSource.getMessage("alert.inventory.checkout", new Object[]{"DVD-RW 3.0", new Date()}, Locale.US);
     }
 }
