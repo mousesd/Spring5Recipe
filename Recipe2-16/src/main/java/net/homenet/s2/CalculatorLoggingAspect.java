@@ -23,25 +23,25 @@ public class CalculatorLoggingAspect implements Ordered {
         return 1;
     }
 
-    //@Before("CalculatorLoggingAspect.loggingOperation()")
+    //@Before("CalculatorPointcuts.loggingOperation()")
     //public void logBefore(JoinPoint joinPoint) {
     //    log.info("The method {}() begins with {}"
     //        , joinPoint.getSignature().getName()
     //        , Arrays.toString(joinPoint.getArgs()));
     //}
     //
-    //@After("CalculatorLoggingAspect.loggingOperation()")
+    //@After("CalculatorPointcuts.loggingOperation()")
     //public void logAfter(JoinPoint joinPoint) {
     //    log.info("The method {}() ends", joinPoint.getSignature().getName());
     //}
     //
-    //@AfterReturning(pointcut = "CalculatorLoggingAspect.loggingOperation()"
+    //@AfterReturning(pointcut = "CalculatorPointcuts.loggingOperation()"
     //    , returning = "result")
     //public void logAfterReturning(JoinPoint joinPoint, Object result) {
     //    log.info("The method {}() ends with {}", joinPoint.getSignature().getName(), result);
     //}
     //
-    //@AfterThrowing(pointcut = "CalculatorLoggingAspect.loggingOperation()"
+    //@AfterThrowing(pointcut = "CalculatorPointcuts.loggingOperation()"
     //    , throwing = "e")
     //public void logAfterThrowing(JoinPoint joinPoint, IllegalArgumentException e) {
     //    log.error("Illegal argument {} in {}()"
