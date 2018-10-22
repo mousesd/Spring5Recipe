@@ -1,4 +1,4 @@
-package net.homenet.s1.configuration;
+package net.homenet.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@ComponentScan("net.homenet.s1")
+@ComponentScan("net.homenet")
 public class CourtConfiguration {
     @Bean
     public InternalResourceViewResolver internalResourceViewResolver() {

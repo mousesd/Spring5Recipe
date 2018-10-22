@@ -1,8 +1,8 @@
-package net.homenet.s1.service;
+package net.homenet.service;
 
-import net.homenet.s1.domain.Player;
-import net.homenet.s1.domain.Reservation;
-import net.homenet.s1.domain.SportType;
+import net.homenet.domain.Reservation;
+import net.homenet.domain.SportType;
+import net.homenet.domain.Player;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

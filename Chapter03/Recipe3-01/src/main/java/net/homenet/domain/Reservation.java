@@ -1,4 +1,4 @@
-package net.homenet.s1.domain;
+package net.homenet.domain;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

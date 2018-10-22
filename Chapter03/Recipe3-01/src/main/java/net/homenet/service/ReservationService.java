@@ -1,6 +1,6 @@
-package net.homenet.s1.service;
+package net.homenet.service;
 
-import net.homenet.s1.domain.Reservation;
+import net.homenet.domain.Reservation;
 
 import java.util.List;
 
