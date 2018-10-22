@@ -1,5 +1,7 @@
 <%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="courtName" scope="request" type="java.lang.String"/>
+<jsp:useBean id="reservations" scope="request" type="java.util.List<net.homenet.s1.domain.Reservation>"/>
 
 <html>
 <head>
