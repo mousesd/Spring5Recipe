@@ -1,7 +1,7 @@
-package net.homenet.s1.controller;
+package net.homenet.controller;
 
-import net.homenet.s1.domain.Reservation;
-import net.homenet.s1.service.ReservationService;
+import net.homenet.domain.Reservation;
+import net.homenet.service.ReservationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
