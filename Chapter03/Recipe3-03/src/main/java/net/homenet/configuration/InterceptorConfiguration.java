@@ -10,6 +10,9 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(measurementInterceptor());
+
+        //registry.addInterceptor(measurementInterceptor())
+        //    .addPathPatterns("/reservationQuery");
     }
 
     @Bean
