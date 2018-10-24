@@ -40,6 +40,7 @@ hs_err_pid*
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+.idea/artifacts/
 
 # Gradle
 .idea/**/gradle.xml
@@ -56,3 +57,4 @@ hs_err_pid*
 # IntelliJ
 out/
 .gradle/
+build/
