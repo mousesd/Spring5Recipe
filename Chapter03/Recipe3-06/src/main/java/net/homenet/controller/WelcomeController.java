@@ -15,6 +15,6 @@ public class WelcomeController {
 
         Date today = new Date();
         model.addAttribute("today", today);
-        return "welcome";
+        return "welcome";   // ResourceBundleViewResolver 를 사용하는 경우 IntelliJ에서 인식하지 못함
     }
 }

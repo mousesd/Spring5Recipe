@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,6 +38,6 @@ public class ReservationQueryController {
             reservations = reservationService.query(courtName);
         }
         model.addAttribute("reservations", reservations);
-        return "reservationQuery";
+        return "reservationQuery";  // ResourceBundleViewResolver 를 사용하는 경우 IntelliJ에서 인식하지 못함
     }
 }
