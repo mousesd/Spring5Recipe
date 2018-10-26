@@ -15,13 +15,13 @@ public class ViewResolverConfiguration {
         this.resourceLoader = resourceLoader;
     }
 
-    @Bean
-    public InternalResourceViewResolver internalResourceViewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/view/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }
+    //@Bean
+    //public InternalResourceViewResolver internalResourceViewResolver() {
+    //    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+    //    viewResolver.setPrefix("/WEB-INF/view/");
+    //    viewResolver.setSuffix(".jsp");
+    //    return viewResolver;
+    //}
 
     @Bean
     public XmlViewResolver xmlViewResolver() {
