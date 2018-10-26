@@ -17,14 +17,6 @@ public class ViewResolverConfiguration {
     //}
 
     //@Bean
-    //public InternalResourceViewResolver internalResourceViewResolver() {
-    //    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-    //    viewResolver.setPrefix("/WEB-INF/view/");
-    //    viewResolver.setSuffix(".jsp");
-    //    return viewResolver;
-    //}
-
-    //@Bean
     //public XmlViewResolver xmlViewResolver() {
     //    XmlViewResolver viewResolver = new XmlViewResolver();
     //    viewResolver.setLocation(resourceLoader.getResource("/WEB-INF/views.xml"));
@@ -34,7 +26,17 @@ public class ViewResolverConfiguration {
     @Bean
     public ResourceBundleViewResolver viewResolver() {
         ResourceBundleViewResolver viewResolver = new ResourceBundleViewResolver();
+        viewResolver.setOrder(0);
         viewResolver.setBasename("court-views");
+        return viewResolver;
+    }
+
+    @Bean
+    public InternalResourceViewResolver internalResourceViewResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setOrder(1);
+        viewResolver.setPrefix("/WEB-INF/view/");
+        viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
 }

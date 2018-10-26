@@ -38,6 +38,6 @@ public class ReservationQueryController {
             reservations = reservationService.query(courtName);
         }
         model.addAttribute("reservations", reservations);
-        return "reservationQuery";  // ResourceBundleViewResolver 를 사용하는 경우 IntelliJ에서 인식하지 못함
+        return "reservationQuery";
     }
 }
