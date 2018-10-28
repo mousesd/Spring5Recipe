@@ -1,6 +1,7 @@
 package net.homenet.service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 public class ReservationNotAvailableException extends RuntimeException {
@@ -24,5 +25,9 @@ public class ReservationNotAvailableException extends RuntimeException {
 
     public int getHour() {
         return hour;
+    }
+
+    public Date getDateAsUtil() {
+        return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }

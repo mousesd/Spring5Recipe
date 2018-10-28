@@ -1,0 +1,12 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--<jsp:useBean id="ex" scope="request" type="net.homenet.service.ReservationNotAvailableException" />--%>
+
+<html>
+<head>
+    <title>Reservation Not Available</title>
+</head>
+<body>
+Your reservation for ${exception.courtName} is not available on <fmt:formatDate value="${exception.dateAsUtil}" pattern="yyyy-MM-dd"/>
+at ${exception.hour}:00.
+</body>
+</html>

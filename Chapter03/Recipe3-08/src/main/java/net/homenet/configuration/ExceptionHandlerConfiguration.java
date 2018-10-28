@@ -12,19 +12,19 @@ import java.util.Properties;
 
 @Configuration
 public class ExceptionHandlerConfiguration implements WebMvcConfigurer {
-    //@Override
-    //public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-    //    resolvers.add(simpleMappingExceptionResolver());
-    //}
-    //
-    //@Bean
-    //public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
-    //    Properties mappings = new Properties();
-    //    mappings.setProperty(ReservationNotAvailableException.class.getName(), "reservationNotAvailable");
-    //
-    //    SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
-    //    exceptionResolver.setExceptionMappings(mappings);
-    //    exceptionResolver.setDefaultErrorView("error");
-    //    return exceptionResolver;
-    //}
+    @Override
+    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+        resolvers.add(simpleMappingExceptionResolver());
+    }
+
+    @Bean
+    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+        Properties mappings = new Properties();
+        mappings.setProperty(ReservationNotAvailableException.class.getName(), "reservationNotAvailable");
+
+        SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+        exceptionResolver.setExceptionMappings(mappings);
+        //exceptionResolver.setDefaultErrorView("error");
+        return exceptionResolver;
+    }
 }

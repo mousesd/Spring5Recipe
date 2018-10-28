@@ -15,7 +15,6 @@ public class Reservation {
 
     public Reservation(String courtName, LocalDate date, int hour, Player player, SportType sportType) {
         this.courtName = courtName;
-        //this.date = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
         this.date = date;
         this.hour = hour;
         this.player = player;
@@ -60,5 +59,9 @@ public class Reservation {
 
     public void setSportType(SportType sportType) {
         this.sportType = sportType;
+    }
+
+    public Date getDateAsUtilDate() {
+        return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }
