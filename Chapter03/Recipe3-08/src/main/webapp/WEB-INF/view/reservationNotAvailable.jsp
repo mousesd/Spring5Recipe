@@ -1,5 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%--<jsp:useBean id="ex" scope="request" type="net.homenet.service.ReservationNotAvailableException" />--%>
+<%--<jsp:useBean id="exception" scope="request" type="net.homenet.service.ReservationNotAvailableException" />--%>
 
 <html>
 <head>
