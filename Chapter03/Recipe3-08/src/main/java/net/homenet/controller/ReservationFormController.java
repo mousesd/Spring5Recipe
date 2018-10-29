@@ -3,6 +3,7 @@ package net.homenet.controller;
 import net.homenet.domain.Player;
 import net.homenet.domain.Reservation;
 import net.homenet.domain.SportType;
+import net.homenet.service.ReservationNotAvailableException;
 import net.homenet.service.ReservationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,4 +42,14 @@ public class ReservationFormController {
     public List<SportType> populateSportType() {
         return reservationService.getAllSportTypes();
     }
+
+    //@ExceptionHandler(ReservationNotAvailableException.class)
+    //public String handle(ReservationNotAvailableException ex) {
+    //    return "reservationNotAvailable";
+    //}
+    //
+    //@ExceptionHandler
+    //public String handleDefault(Exception ex) {
+    //    return "error";
+    //}
 }
