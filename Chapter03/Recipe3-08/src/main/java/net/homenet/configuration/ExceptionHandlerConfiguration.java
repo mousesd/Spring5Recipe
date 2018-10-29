@@ -24,7 +24,7 @@ public class ExceptionHandlerConfiguration implements WebMvcConfigurer {
 
         SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
         exceptionResolver.setExceptionMappings(mappings);
-        //exceptionResolver.setDefaultErrorView("error");
+        exceptionResolver.setDefaultErrorView("error");
         return exceptionResolver;
     }
 }
