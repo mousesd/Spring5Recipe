@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-<form:form method="post" commandName="reservation">
+<form:form method="post" modelAttribute="reservation">
     <table>
         <tr>
             <td>Player Name</td>

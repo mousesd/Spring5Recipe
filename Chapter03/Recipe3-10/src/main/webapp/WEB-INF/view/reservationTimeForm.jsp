@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-<form:form method="post" modelAttribute="reservaton">
+<form:form method="post" modelAttribute="reservation">
     <table>
         <tr>
             <td>From Date</td>
@@ -24,7 +24,7 @@
         </tr>
         <tr>
             <td>Period</td>
-            <td><form:input path="period"/></td>
+            <td><form:select path="period" items="${periods}"/></td>
             <td><form:errors path="period" cssClass="error"/></td>
         </tr>
         <tr>

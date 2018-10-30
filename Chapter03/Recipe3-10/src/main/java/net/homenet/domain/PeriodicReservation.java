@@ -1,11 +1,14 @@
 package net.homenet.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
-import java.util.Date;
 
 public class PeriodicReservation {
-    private String countName;
+    private String courtName;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fromDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate toDate;
     private int period;
     private int hour;
@@ -13,8 +16,8 @@ public class PeriodicReservation {
 
     public PeriodicReservation() { }
 
-    public PeriodicReservation(String countName, LocalDate fromDate, LocalDate toDate, int period, int hour, Player player) {
-        this.countName = countName;
+    public PeriodicReservation(String courtName, LocalDate fromDate, LocalDate toDate, int period, int hour, Player player) {
+        this.courtName = courtName;
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.period = period;
@@ -22,12 +25,12 @@ public class PeriodicReservation {
         this.player = player;
     }
 
-    public String getCountName() {
-        return countName;
+    public String getCourtName() {
+        return courtName;
     }
 
-    public void setCountName(String countName) {
-        this.countName = countName;
+    public void setCourtName(String courtName) {
+        this.courtName = courtName;
     }
 
     public LocalDate getFromDate() {

@@ -79,7 +79,7 @@ public class ReservationServiceImpl implements ReservationService {
         LocalDate fromDate = periodicReservation.getFromDate();
         while (fromDate.isBefore(periodicReservation.getToDate())) {
             Reservation reservation = new Reservation();
-            reservation.setCourtName(periodicReservation.getCountName());
+            reservation.setCourtName(periodicReservation.getCourtName());
             reservation.setDate(fromDate);
             reservation.setHour(periodicReservation.getHour());
             reservation.setPlayer(periodicReservation.getPlayer());
