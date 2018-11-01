@@ -29,12 +29,18 @@ public class Main {
         //System.out.println(members);
 
         //# 4.
-        final String uri = "http://localhost:8080/member/{memberId}";
-        Map<String, String> params = new HashMap<>();
-        params.put("memberId", "1");
+        //final String uri = "http://localhost:8080/member/{memberId}";
+        //Map<String, String> params = new HashMap<>();
+        //params.put("memberId", "1");
+        //
+        //RestTemplate restTemplate = new RestTemplate();
+        //Member member = restTemplate.getForObject(uri, Member.class, params);
+        //System.out.println(member);
 
+        //# 5.
+        final String uri = "http://localhost:8080/members.json";
         RestTemplate restTemplate = new RestTemplate();
-        Member member = restTemplate.getForObject(uri, Member.class, params);
-        System.out.println(member);
+        Members members = restTemplate.getForObject(uri, Members.class);
+        System.out.println(members);
     }
 }
