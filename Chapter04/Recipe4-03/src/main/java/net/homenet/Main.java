@@ -23,9 +23,18 @@ public class Main {
         //System.out.println(result);
 
         //# 3.
-        final String uri = "http://localhost:8080/members.xml";
+        //final String uri = "http://localhost:8080/members.xml";
+        //RestTemplate restTemplate = new RestTemplate();
+        //Members members = restTemplate.getForObject(uri, Members.class);
+        //System.out.println(members);
+
+        //# 4.
+        final String uri = "http://localhost:8080/member/{memberId}";
+        Map<String, String> params = new HashMap<>();
+        params.put("memberId", "1");
+
         RestTemplate restTemplate = new RestTemplate();
-        Members members = restTemplate.getForObject(uri, Members.class);
-        System.out.println(members);
+        Member member = restTemplate.getForObject(uri, Member.class, params);
+        System.out.println(member);
     }
 }
