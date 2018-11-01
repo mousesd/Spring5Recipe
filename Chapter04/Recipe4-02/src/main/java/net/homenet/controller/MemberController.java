@@ -3,6 +3,7 @@ package net.homenet.controller;
 import net.homenet.domain.Members;
 import net.homenet.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,15 @@ public class MemberController {
     //    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     //}
 
-    @RequestMapping("/members")
+    @RequestMapping(value = "/members", produces = MediaType.APPLICATION_XML_VALUE)
+    public String getMembersXml(Model model) {
+        Members members = new Members();
+        members.addMembers(memberService.findAll());
+        model.addAttribute("members", members);
+        return "xmlMemberTemplate";
+    }
+
+    @RequestMapping(value = "/members", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getMembers(Model model) {
         Members members = new Members();
         members.addMembers(memberService.findAll());
