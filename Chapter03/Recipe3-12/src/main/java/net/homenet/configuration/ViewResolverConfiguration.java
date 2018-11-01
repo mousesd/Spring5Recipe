@@ -7,14 +7,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @Configuration
@@ -37,6 +40,14 @@ public class ViewResolverConfiguration implements WebMvcConfigurer {
         configurer.mediaTypes(mediaTypes);
     }
 
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new SportTypeConverter(reservationService));
+    }
+
+    //# TODO: 아래 2가지 정상동작하지 않음. 해결할것!
+    //# 1.확장자가 .pdf 인 경우는 pdfViewResolver가 동작
+    //# 2.확장자가 .XLS 인 경우는 xlsViewResolver가 동작
     @Bean
     public ResourceBundleViewResolver pdfViewResolver() {
         ResourceBundleViewResolver viewResolver = new ResourceBundleViewResolver();
@@ -54,6 +65,15 @@ public class ViewResolverConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
+    public CookieLocaleResolver localeResolver() {
+        CookieLocaleResolver resolver = new CookieLocaleResolver();
+        resolver.setCookieName("language");
+        resolver.setCookieMaxAge(3600);
+        resolver.setDefaultLocale(new Locale("en"));
+        return resolver;
+    }
+
+    @Bean
     public InternalResourceViewResolver internalResourceViewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setOrder(1);
@@ -67,10 +87,5 @@ public class ViewResolverConfiguration implements WebMvcConfigurer {
         ContentNegotiatingViewResolver viewResolver = new ContentNegotiatingViewResolver();
         viewResolver.setContentNegotiationManager(manager);
         return viewResolver;
-    }
-
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new SportTypeConverter(reservationService));
     }
 }
