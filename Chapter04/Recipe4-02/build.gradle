@@ -29,6 +29,7 @@ dependencies {
     compile "javax.servlet:jstl:1.2"
     compile "javax.servlet.jsp:javax.servlet.jsp-api:2.3.1"
     compile "javax.validation:validation-api:2.0.1.Final"
-    compile "com.fasterxml.jackson.core:jackson-databind:2.9.3"
+    //compile "com.fasterxml.jackson.core:jackson-databind:2.9.3"   // Jackson
+    compile "com.google.code.gson:gson:2.8.0"                       // Gson
     compile "org.slf4j:slf4j-simple:1.7.25"
 }
