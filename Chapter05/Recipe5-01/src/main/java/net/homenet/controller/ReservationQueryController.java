@@ -3,14 +3,14 @@ package net.homenet.controller;
 import net.homenet.domain.Reservation;
 import net.homenet.service.ReservationService;
 import net.homenet.util.Delayer;
-import org.springframework.core.task.TaskExecutor;
+import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,9 +20,15 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping("/reservationQuery")
 public class ReservationQueryController {
     private final ReservationService reservationService;
-    private final TaskExecutor taskExecutor;
+    //private final TaskExecutor taskExecutor;
+    private final AsyncListenableTaskExecutor taskExecutor;
 
-    public ReservationQueryController(ReservationService reservationService, TaskExecutor taskExecutor) {
+    //public ReservationQueryController(ReservationService reservationService, TaskExecutor taskExecutor) {
+    //    this.reservationService = reservationService;
+    //    this.taskExecutor = taskExecutor;
+    //}
+
+    public ReservationQueryController(ReservationService reservationService, AsyncListenableTaskExecutor taskExecutor) {
         this.reservationService = reservationService;
         this.taskExecutor = taskExecutor;
     }
@@ -79,9 +85,23 @@ public class ReservationQueryController {
     //}
 
     //# 4.Async #3) CompletableFuture<?>
+    //@PostMapping
+    //public CompletableFuture<String> submitForm(@RequestParam("courtName") String courtName, Model model) {
+    //    return CompletableFuture.supplyAsync(() -> {
+    //        List<Reservation> reservations = Collections.emptyList();
+    //        if (courtName != null) {
+    //            Delayer.randomDelay();
+    //            reservations = reservationService.query(courtName);
+    //        }
+    //        model.addAttribute("reservations", reservations);
+    //        return "reservationQuery";
+    //    }, taskExecutor);
+    //}
+
+    //# 5.Async #4) ListenableFuture<?>
     @PostMapping
-    public CompletableFuture<String> submitForm(@RequestParam("courtName") String courtName, Model model) {
-        return CompletableFuture.supplyAsync(() -> {
+    public ListenableFuture<String> submitForm(@RequestParam("courtName") String courtName, Model model) {
+        return taskExecutor.submitListenable(() -> {
             List<Reservation> reservations = Collections.emptyList();
             if (courtName != null) {
                 Delayer.randomDelay();
@@ -89,6 +109,6 @@ public class ReservationQueryController {
             }
             model.addAttribute("reservations", reservations);
             return "reservationQuery";
-        }, taskExecutor);
+        });
     }
 }
