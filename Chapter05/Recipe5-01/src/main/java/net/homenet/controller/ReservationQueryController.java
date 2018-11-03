@@ -14,6 +14,7 @@ import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Controller
 @RequestMapping("/reservationQuery")
@@ -47,7 +48,7 @@ public class ReservationQueryController {
     //    return "reservationQuery";
     //}
 
-    //# 2.Async #1)
+    //# 2.Async #1) Callable<?>
     //@PostMapping
     //public Callable<String> submitForm(@RequestParam("courtName") String courtName, Model model) {
     //    return () -> {
@@ -61,19 +62,33 @@ public class ReservationQueryController {
     //    };
     //}
 
-    //# 3.Async #2)
+    //# 3.Async #2) DeferredResult<?>
+    //@PostMapping
+    //public DeferredResult<String> submitForm(@RequestParam("courtName") String courtName, Model model) {
+    //    DeferredResult<String> result = new DeferredResult<>();
+    //    taskExecutor.execute(() -> {
+    //        List<Reservation> reservations = Collections.emptyList();
+    //        if (courtName != null) {
+    //            Delayer.randomDelay();
+    //            reservations = reservationService.query(courtName);
+    //        }
+    //        model.addAttribute("reservations", reservations);
+    //        result.setResult("reservationQuery");
+    //    });
+    //    return result;
+    //}
+
+    //# 4.Async #3) CompletableFuture<?>
     @PostMapping
-    public DeferredResult<String> submitForm(@RequestParam("courtName") String courtName, Model model) {
-        DeferredResult<String> result = new DeferredResult<>();
-        taskExecutor.execute(() -> {
+    public CompletableFuture<String> submitForm(@RequestParam("courtName") String courtName, Model model) {
+        return CompletableFuture.supplyAsync(() -> {
             List<Reservation> reservations = Collections.emptyList();
             if (courtName != null) {
                 Delayer.randomDelay();
                 reservations = reservationService.query(courtName);
             }
             model.addAttribute("reservations", reservations);
-            result.setResult("reservationQuery");
-        });
-        return result;
+            return "reservationQuery";
+        }, taskExecutor);
     }
 }
