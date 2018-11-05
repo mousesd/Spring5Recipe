@@ -78,6 +78,7 @@ public class ReservationQueryController {
 
     //# 2.
     //@GetMapping(params = "courtName")
+    //@ResponseBody
     //public ResponseEntity<ResponseBodyEmitter> find(@RequestParam("courtName") String courtName) {
     //    ResponseBodyEmitter emitter = new ResponseBodyEmitter();
     //    taskExecutor.execute(() -> {
@@ -124,7 +125,7 @@ public class ReservationQueryController {
             Collection<Reservation> reservations = reservationService.query(courtName);
             try {
                 for (Reservation reservation : reservations) {
-                    Delayer.delay(125);
+                    Delayer.delay(300);
                     emitter.send(SseEmitter.event()
                         .id(String.valueOf(reservation.hashCode()))
                         .data(reservation));

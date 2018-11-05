@@ -34,4 +34,5 @@ dependencies {
     compile "org.apache.poi:poi-ooxml:3.17"
     compile "com.itextpdf:itextpdf:5.5.12"
     compile "com.lowagie:itext:2.1.7"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.9.3"
 }
