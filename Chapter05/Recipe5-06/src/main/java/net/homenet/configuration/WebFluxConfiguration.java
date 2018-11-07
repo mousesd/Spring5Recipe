@@ -1,8 +1,12 @@
 package net.homenet.configuration;
 
+import net.homenet.converter.SportTypeConverter;
+import net.homenet.service.ReservationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.config.ViewResolverRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
@@ -17,6 +21,11 @@ import org.thymeleaf.templatemode.TemplateMode;
 @EnableWebFlux
 @ComponentScan("net.homenet")
 public class WebFluxConfiguration implements WebFluxConfigurer {
+
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+    @Autowired
+    private ReservationService reservationService;
+
     @Bean
     public SpringResourceTemplateResolver thymeleafTemplateResolver() {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
@@ -45,5 +54,10 @@ public class WebFluxConfiguration implements WebFluxConfigurer {
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         registry.viewResolver(thymeleafReactiveViewResolver());
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new SportTypeConverter(reservationService));
     }
 }

@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -98,6 +99,30 @@ public class ReservationServiceImpl implements ReservationService {
         } else {
             reservations.add(reservation);
             return Mono.just(reservation);
+        }
+    }
+
+    //# Spring MVC
+    //@Override
+    //public List<SportType> getAllSportTypes() {
+    //    return Arrays.asList(TENNIS, SOCCER);
+    //}
+
+    //# Spring Flux
+    @Override
+    public Flux<SportType> getAllSportTypes() {
+        return Flux.fromIterable(Arrays.asList(TENNIS, SOCCER));
+    }
+
+    @Override
+    public SportType getSportType(int sportTypeId) {
+        switch (sportTypeId) {
+            case 1:
+                return TENNIS;
+            case 2:
+                return SOCCER;
+            default:
+                return null;
         }
     }
 }

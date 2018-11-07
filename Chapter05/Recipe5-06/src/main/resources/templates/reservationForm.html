@@ -40,6 +40,15 @@
             <td><span class="error" th:if="${#fields.hasErrors('player.phone')}" th:errors="*{palyer.phone}"></span></td>
         </tr>
         <tr>
+            <td>Sport Type</td>
+            <td>
+                <select th:field="*{sportType}">
+                    <option th:each="sportType : ${sportTypes}" th:value="${sportType.id}" th:text="${sportType.name}"></option>
+                </select>
+            </td>
+            <td><span class="error" th:if="${#fields.hasErrors('sportType')}" th:errors="${sportType}"></span></td>
+        </tr>
+        <tr>
             <td colspan="3"><input type="submit"/></td>
         </tr>
     </table>
