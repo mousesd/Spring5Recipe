@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection, HtmlFormInputWithoutLabel -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Form</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<form method="post" th:object="${reservation}">
+    <table>
+        <tr>
+            <td>Court Name</td>
+            <td><input type="text" th:field="*{courtName}" required/></td>
+            <td><span class="error" th:if="${#fields.hasErrors('courtName')}" th:errors="*{courtName}"></span></td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td><input type="date" th:field="*{date}" required/></td>
+            <td><span class="error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span></td>
+        </tr>
+        <tr>
+            <td>Hour</td>
+            <td><input type="number" th:field="*{hour}" required/></td>
+            <td><span class="error" th:if="${#fields.hasErrors('hour')}" th:errors="*{hour}"></span></td>
+        </tr>
+        <tr>
+            <td colspan="3"><input type="submit"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

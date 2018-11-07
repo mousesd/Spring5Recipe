@@ -3,8 +3,10 @@ package net.homenet.service;
 import net.homenet.domain.Player;
 import net.homenet.domain.Reservation;
 import net.homenet.domain.SportType;
+import net.homenet.exception.ReservationNotAvailableException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ public class ReservationServiceImpl implements ReservationService {
             , TENNIS));
     }
 
+    //# Spring MVC
     //@Override
     //public List<Reservation> query(String courtName) {
     //    return this.reservations.stream()
@@ -53,9 +56,48 @@ public class ReservationServiceImpl implements ReservationService {
     //        .collect(Collectors.toList());
     //}
 
+    //# Spring Flux
     @Override
     public Flux<Reservation> query(String courtName) {
         return Flux.fromIterable(reservations)
             .filter(reservation -> Objects.equals(reservation.getCourtName(), courtName));
+    }
+
+    //# Spring MVC
+    //@Override
+    //public void make(Reservation reservation) throws ReservationNotAvailableException {
+    //    long count = reservations.stream()
+    //        .filter(assigned -> assigned.getCourtName().equals(reservation.getCourtName()))
+    //        .filter(assigned -> assigned.getDate().equals(reservation.getDate()))
+    //        .filter(assigned -> assigned.getHour() == reservation.getHour())
+    //        .count();
+    //
+    //    if (count > 0) {
+    //        throw new ReservationNotAvailableException(reservation.getCourtName()
+    //            , reservation.getDate()
+    //            , reservation.getHour());
+    //    } else {
+    //        reservations.add(reservation);
+    //    }
+    //}
+
+    //# Spring Flux
+    @Override
+    public Mono<Reservation> make(Reservation reservation) throws ReservationNotAvailableException {
+        long count = reservations.stream()
+            .filter(assigned -> assigned.getCourtName().equals(reservation.getCourtName()))
+            .filter(assigned -> assigned.getDate().equals(reservation.getDate()))
+            .filter(assigned -> assigned.getHour() == reservation.getHour())
+            .count();
+
+        if (count > 0) {
+            return Mono.error(new ReservationNotAvailableException(
+                reservation.getCourtName()
+                , reservation.getDate()
+                , reservation.getHour()));
+        } else {
+            reservations.add(reservation);
+            return Mono.just(reservation);
+        }
     }
 }
