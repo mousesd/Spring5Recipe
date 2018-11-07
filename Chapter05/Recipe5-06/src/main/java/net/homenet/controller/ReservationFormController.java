@@ -4,9 +4,12 @@ import net.homenet.domain.Player;
 import net.homenet.domain.Reservation;
 import net.homenet.domain.SportType;
 import net.homenet.service.ReservationService;
+import net.homenet.service.ReservationValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
@@ -14,14 +17,21 @@ import reactor.core.publisher.Flux;
 @RequestMapping("/reservationForm")
 public class ReservationFormController {
     private final ReservationService reservationService;
+    private final ReservationValidator reservationValidator;
 
-    public ReservationFormController(ReservationService reservationService) {
+    public ReservationFormController(ReservationService reservationService, ReservationValidator reservationValidator) {
         this.reservationService = reservationService;
+        this.reservationValidator = reservationValidator;
     }
 
     @ModelAttribute("sportTypes")
     public Flux<SportType> populateSportTypes() {
         return reservationService.getAllSportTypes();
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.setValidator(reservationValidator);
     }
 
     @GetMapping
@@ -35,7 +45,10 @@ public class ReservationFormController {
 
     @SuppressWarnings("UnassignedFluxMonoInstance")
     @PostMapping
-    public String submitForm(@ModelAttribute("reservation") Reservation reservation, BindingResult result) {
+    public String submitForm(@ModelAttribute("reservation") @Validated Reservation reservation, BindingResult result) {
+        if (result.hasErrors())
+            return "reservationForm";
+
         reservationService.make(reservation);
         return "redirect:reservationSuccess";
     }
