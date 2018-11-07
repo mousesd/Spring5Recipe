@@ -30,6 +30,16 @@
             <td><span class="error" th:if="${#fields.hasErrors('hour')}" th:errors="*{hour}"></span></td>
         </tr>
         <tr>
+            <td>Player Name</td>
+            <td><input type="text" th:field="*{player.name}" required/></td>
+            <td><span class="error" th:if="${#fields.hasErrors('player.name')}" th:errors="*{player.name}"></span></td>
+        </tr>
+        <tr>
+            <td>Player Phone</td>
+            <td><input type="text" th:field="*{player.phone}" required/></td>
+            <td><span class="error" th:if="${#fields.hasErrors('player.phone')}" th:errors="*{palyer.phone}"></span></td>
+        </tr>
+        <tr>
             <td colspan="3"><input type="submit"/></td>
         </tr>
     </table>

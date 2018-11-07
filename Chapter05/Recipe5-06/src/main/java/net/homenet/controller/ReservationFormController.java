@@ -1,14 +1,12 @@
 package net.homenet.controller;
 
+import net.homenet.domain.Player;
 import net.homenet.domain.Reservation;
 import net.homenet.service.ReservationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/reservationForm")
@@ -20,8 +18,10 @@ public class ReservationFormController {
     }
 
     @GetMapping
-    public String setupForm(Model model) {
+    public String setupForm(@RequestParam(value = "userName", required = false) String userName, Model model) {
+        Player player = new Player(userName, null);
         Reservation reservation = new Reservation();
+        reservation.setPlayer(player);
         model.addAttribute("reservation", reservation);
         return "reservationForm";
     }
