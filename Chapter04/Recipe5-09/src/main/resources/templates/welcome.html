@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<!--suppress ThymeleafVariablesResolveInspection -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+<h2>Welcome to Court Reservation System</h2>
+Today is <strong th:text="${#temporals.format(today, 'yyyy-MM-dd')}">2018-11-06</strong>
+</body>
+</html>
