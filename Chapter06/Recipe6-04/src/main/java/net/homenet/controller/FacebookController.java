@@ -20,6 +20,7 @@ public class FacebookController {
     @GetMapping(value = "/profile")
     public String showFacebookProfile(Model model) {
         //# NOTE: repository.getPrimaryConnection(Facebook.class) 호출시 아래 예외 발생
+        //#       Facebook 에 로그인후에는 발생하지 않음
         //# org.springframework.social.connect.NotConnectedException: Not connected to provider 'facebook'
         //#     at org.springframework.social.connect.mem.InMemoryConnectionRepository.getPrimaryConnection(InMemoryConnectionRepository.java:99)
         //#     at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -35,6 +36,39 @@ public class FacebookController {
         //#     at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:212)
         //#     at com.sun.proxy.$Proxy25.getPrimaryConnection(Unknown Source)
         //#     at net.homenet.controller.FacebookController.showFacebookProfile(FacebookController.java:22)
+        //#     at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        //#     at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        //#     at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        //#     at java.lang.reflect.Method.invoke(Method.java:498)
+        //#     at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:209)
+        //#     at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:136)
+        //#     at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+        //#     at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:877)
+        //#     at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:783)
+        //#     at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+        //#     at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:991)
+        //#     at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:925)
+        //#     at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:974)
+        //#     at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:866)
+
+        //# NOTE: Facebook 로그인후 connection.fetchUserProfile() 호출시 아래 예외 발생
+        //#       Facebook API 변경사항이 있는거 같음(https://stackoverflow.com/questions/39890885/error-message-is-12-bio-field-is-deprecated-for-versions-v2-8-and-higher)
+        //# org.springframework.social.UncategorizedApiException: (#12) bio field is deprecated for versions v2.8 and higher
+        //#     at org.springframework.social.facebook.api.impl.FacebookErrorHandler.handleFacebookError(FacebookErrorHandler.java:91)
+        //#     at org.springframework.social.facebook.api.impl.FacebookErrorHandler.handleError(FacebookErrorHandler.java:59)
+        //#     at org.springframework.web.client.ResponseErrorHandler.handleError(ResponseErrorHandler.java:63)
+        //#     at org.springframework.web.client.RestTemplate.handleResponse(RestTemplate.java:775)
+        //#     at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:728)
+        //#     at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:702)
+        //#     at org.springframework.web.client.RestTemplate.getForObject(RestTemplate.java:350)
+        //#     at org.springframework.social.facebook.api.impl.FacebookTemplate.fetchObject(FacebookTemplate.java:225)
+        //#     at org.springframework.social.facebook.api.impl.FacebookTemplate.fetchObject(FacebookTemplate.java:220)
+        //#     at org.springframework.social.facebook.api.impl.UserTemplate.getUserProfile(UserTemplate.java:53)
+        //#     at org.springframework.social.facebook.api.impl.UserTemplate.getUserProfile(UserTemplate.java:49)
+        //#     at org.springframework.social.facebook.connect.FacebookAdapter.fetchUserProfile(FacebookAdapter.java:50)
+        //#     at org.springframework.social.facebook.connect.FacebookAdapter.fetchUserProfile(FacebookAdapter.java:30)
+        //#     at org.springframework.social.connect.support.AbstractConnection.fetchUserProfile(AbstractConnection.java:111)
+        //#     at net.homenet.controller.FacebookController.showFacebookProfile(FacebookController.java:53)
         //#     at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
         //#     at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
         //#     at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
