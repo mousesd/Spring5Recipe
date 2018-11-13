@@ -1,23 +1,42 @@
 package net.homenet.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionRepository;
+import org.springframework.social.connect.UsersConnectionRepository;
+import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 
+import javax.servlet.ServletRegistration;
+import javax.sql.DataSource;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+
 @Configuration
 @EnableSocial
 @PropertySource("classpath:/application.properties")
 public class SocialAppConfiguration extends SocialConfigurerAdapter {
+
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+    @Autowired
+    private Environment env;
+
     @Override
     public StaticUserIdSource getUserIdSource() {
         return new StaticUserIdSource();
@@ -79,6 +98,11 @@ public class SocialAppConfiguration extends SocialConfigurerAdapter {
                 environment.getRequiredProperty("facebook.appSecret")));
     }
 
+    @Override
+    public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
+        return new JdbcUsersConnectionRepository(dataSource(), connectionFactoryLocator, Encryptors.noOpText());
+    }
+
     @Bean
     @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
     public Twitter twitterTemplate(ConnectionRepository repository) {
@@ -96,5 +120,28 @@ public class SocialAppConfiguration extends SocialConfigurerAdapter {
     @Bean
     public ConnectController connectController(ConnectionFactoryLocator locator, ConnectionRepository repository) {
         return new ConnectController(locator, repository);
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUrl(env.getProperty("datasource.url"));
+        dataSource.setUsername(env.getProperty("datasource.username"));
+        dataSource.setPassword(env.getProperty("datasource.password"));
+        dataSource.setDriverClassName(env.getRequiredProperty("datasource.driverClassName"));
+        return dataSource;
+    }
+
+    @Bean
+    public DataSourceInitializer databasePopulator() {
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource(
+            "org/springframework/social/connect/jdbc/JdbcUsersConnectionRepository.sql"));
+        populator.setContinueOnError(true);
+
+        DataSourceInitializer initializer = new DataSourceInitializer();
+        initializer.setDatabasePopulator(populator);
+        initializer.setDataSource(dataSource());
+        return initializer;
     }
 }

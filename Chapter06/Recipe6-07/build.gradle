@@ -24,6 +24,7 @@ dependencies {
     compile "org.springframework:spring-context:${springVersion}"
     compile "org.springframework:spring-beans:${springVersion}"
     compile "org.springframework:spring-webmvc:${springVersion}"
+    compile "org.springframework:spring-jdbc:${springVersion}"
     compile "org.springframework.social:spring-social-config:1.1.6.RELEASE"
     compile "org.springframework.social:spring-social-twitter:1.1.2.RELEASE"
     compile "org.springframework.social:spring-social-facebook:2.0.3.RELEASE"
@@ -36,4 +37,6 @@ dependencies {
     compile "javax.validation:validation-api:2.0.1.Final"
     compile "com.fasterxml.jackson.core:jackson-databind:2.9.3"
     compile "org.slf4j:slf4j-simple:1.7.25"
+
+    runtime "com.h2database:h2:1.4.197"
 }
