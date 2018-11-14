@@ -6,8 +6,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.social.security.SocialUserDetailsService;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -30,6 +33,8 @@ public class SocialSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .logout()
             .logoutUrl("/signout")
             .permitAll();
+
+        http.apply(new SpringSocialConfigurer());
     }
 
     @Override
@@ -43,5 +48,10 @@ public class SocialSecurityConfiguration extends WebSecurityConfigurerAdapter {
         manager.setDataSource(dataSource);
         manager.setEnableAuthorities(true);
         return manager;
+    }
+
+    @Bean
+    public SocialUserDetailsService socialUserDetailsService(UserDetailsService userDetailsService) {
+        return new SocialUserDetailsServiceImpl(userDetailsService);
     }
 }

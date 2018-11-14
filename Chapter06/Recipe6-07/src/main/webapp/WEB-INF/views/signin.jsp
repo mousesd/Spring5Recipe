@@ -28,5 +28,10 @@
         </tr>
     </table>
 </form>
+
+<core:url var="twitterSignin" value="/auth/twitter"/>
+<p><a href="${twitterSignin}">Sign in with Twitter</a></p>
+<core:url var="facebookSignin" value="/auth/facebook"/>
+<p><a href="${facebookSignin}">Sign in with Facebook</a></p>
 </body>
 </html>

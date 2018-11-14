@@ -5,8 +5,10 @@
       <w>invocable</w>
       <w>joinpoint</w>
       <w>populator</w>
+      <w>rols</w>
       <w>signin</w>
       <w>signout</w>
+      <w>signup</w>
       <w>singin</w>
       <w>uncategorized</w>
       <w>userid</w>
