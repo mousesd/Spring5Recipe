@@ -5,6 +5,10 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.ConnectionProperties;
+import org.springframework.jdbc.datasource.embedded.DataSourceFactory;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.crypto.encrypt.Encryptors;
@@ -28,6 +32,7 @@ import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 import javax.servlet.ServletRegistration;
 import javax.sql.DataSource;
 import java.security.PublicKey;
+import java.sql.Driver;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +40,7 @@ import java.util.Set;
 @Configuration
 @EnableSocial
 @PropertySource("classpath:/application.properties")
+@ComponentScan("net.homenet")
 public class SocialAppConfiguration extends SocialConfigurerAdapter {
 
     @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
@@ -128,28 +134,37 @@ public class SocialAppConfiguration extends SocialConfigurerAdapter {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setUrl(env.getProperty("datasource.url"));
-        dataSource.setUsername(env.getProperty("datasource.username"));
-        dataSource.setPassword(env.getProperty("datasource.password"));
-        dataSource.setDriverClassName(env.getRequiredProperty("datasource.driverClassName"));
-        return dataSource;
+        //DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        //dataSource.setUrl(env.getProperty("datasource.url"));
+        //dataSource.setUsername(env.getProperty("datasource.username"));
+        //dataSource.setPassword(env.getProperty("datasource.password"));
+        //dataSource.setDriverClassName(env.getRequiredProperty("datasource.driverClassName"));
+        //return dataSource;
+
+        //# 아래와 같이 하는 경우 Tomcat 시작시 UserConnection 테이블 중복 생성 예외가 발생
+        return new EmbeddedDatabaseBuilder()
+            .setType(EmbeddedDatabaseType.H2)
+            .setName("social")
+            .addScript("classpath:/org/springframework/social/connect/jdbc/JdbcUsersConnectionRepository.sql")
+            .addScript("classpath:/scripts/create_users.sql")
+            .addScript("classpath:/scripts/init_users.sql")
+            .build();
     }
 
-    @Bean
-    public DataSourceInitializer databasePopulator() {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource(
-            "org/springframework/social/connect/jdbc/JdbcUsersConnectionRepository.sql"));
-        populator.addScript(new ClassPathResource("scripts/create_users.sql"));
-        populator.addScript(new ClassPathResource("scripts/init_users.sql"));
-        populator.setContinueOnError(true);
-
-        DataSourceInitializer initializer = new DataSourceInitializer();
-        initializer.setDatabasePopulator(populator);
-        initializer.setDataSource(dataSource());
-        return initializer;
-    }
+    //@Bean
+    //public DataSourceInitializer databasePopulator() {
+    //    ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+    //    populator.addScript(new ClassPathResource(
+    //        "org/springframework/social/connect/jdbc/JdbcUsersConnectionRepository.sql"));
+    //    populator.addScript(new ClassPathResource("scripts/create_users.sql"));
+    //    populator.addScript(new ClassPathResource("scripts/init_users.sql"));
+    //    populator.setContinueOnError(true);
+    //
+    //    DataSourceInitializer initializer = new DataSourceInitializer();
+    //    initializer.setDatabasePopulator(populator);
+    //    initializer.setDataSource(dataSource());
+    //    return initializer;
+    //}
 
     @Bean
     public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator locator, UsersConnectionRepository repository) {
