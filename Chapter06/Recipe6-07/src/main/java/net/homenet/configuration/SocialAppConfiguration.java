@@ -8,6 +8,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
@@ -19,11 +20,13 @@ import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 
 import javax.servlet.ServletRegistration;
 import javax.sql.DataSource;
+import java.security.PublicKey;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -38,8 +41,8 @@ public class SocialAppConfiguration extends SocialConfigurerAdapter {
     private Environment env;
 
     @Override
-    public StaticUserIdSource getUserIdSource() {
-        return new StaticUserIdSource();
+    public UserIdSource getUserIdSource() {
+        return new AuthenticationNameUserIdSource();
     }
 
     //# NOTE: @Configuration 설정하면 아래 예외가 발생
@@ -137,6 +140,8 @@ public class SocialAppConfiguration extends SocialConfigurerAdapter {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource(
             "org/springframework/social/connect/jdbc/JdbcUsersConnectionRepository.sql"));
+        populator.addScript(new ClassPathResource("scripts/create_users.sql"));
+        populator.addScript(new ClassPathResource("scripts/init_users.sql"));
         populator.setContinueOnError(true);
 
         DataSourceInitializer initializer = new DataSourceInitializer();

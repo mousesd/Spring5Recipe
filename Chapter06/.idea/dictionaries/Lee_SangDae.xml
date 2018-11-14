@@ -6,6 +6,8 @@
       <w>joinpoint</w>
       <w>populator</w>
       <w>signin</w>
+      <w>signout</w>
+      <w>singin</w>
       <w>uncategorized</w>
       <w>userid</w>
     </words>
