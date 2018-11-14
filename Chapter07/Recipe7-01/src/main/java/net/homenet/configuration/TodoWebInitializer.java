@@ -1,6 +1,9 @@
 package net.homenet.configuration;
 
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 public class TodoWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
@@ -16,5 +19,10 @@ public class TodoWebInitializer extends AbstractAnnotationConfigDispatcherServle
     @Override
     protected String[] getServletMappings() {
         return new String[]{ "/" };
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{ new HiddenHttpMethodFilter() };
     }
 }

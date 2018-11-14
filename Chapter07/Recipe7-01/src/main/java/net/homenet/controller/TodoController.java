@@ -45,13 +45,13 @@ public class TodoController {
         return "redirect:/todos";
     }
 
-    @PostMapping("/{todoId}/completed")
+    @PutMapping("/{todoId}/completed")
     public String complete(@PathVariable("todoId") long todoId) {
         todoService.complete(todoId);
         return "redirect:/todos";
     }
 
-    @PostMapping("/{todoId}")
+    @DeleteMapping("/{todoId}")
     public String delete(@PathVariable("todoId") long todoId) {
         todoService.remove(todoId);
         return "redirect:/todos";

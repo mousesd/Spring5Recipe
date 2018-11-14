@@ -43,8 +43,7 @@
         </c:forEach>
         <tr>
             <td colspan="3">
-                <a class="ui mini icon button" href="<c:url value="/todos/new"/>">New To-do <i
-                        class="add circle icon"></i></a>
+                <a class="ui mini icon button" href="<c:url value="/todos/new"/>">New To-do <i class="add circle icon"></i></a>
             </td>
         </tr>
         </tbody>
