@@ -16,7 +16,6 @@ public class SocialWebAppConfiguration implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
-        registry.addViewController("/signin").setViewName("signin");
     }
 
     @Bean
