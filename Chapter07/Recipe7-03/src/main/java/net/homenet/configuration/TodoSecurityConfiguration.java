@@ -27,6 +27,13 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
         //    .withUser("mousesd@icloud.com").password("{noop}icloud").disabled(true).authorities("USER", "ADMIN");
 
         //# 2.Authenticate users against a Database
+        // SELECT username, password, enabled
+        //   FROM users
+        //  WHERE username = ?
+        //
+        // SELECT username, authority
+        //   FROM authorities
+        //  WHERE username = ?
         auth.jdbcAuthentication()
             .dataSource(dataSource());
     }
