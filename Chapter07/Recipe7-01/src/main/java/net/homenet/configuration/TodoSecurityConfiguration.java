@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -29,12 +30,25 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
         //    .httpBasic();
 
         //# 2.
+        //http.authorizeRequests()
+        //    .antMatchers("/todos*").hasAuthority("USER")
+        //    .antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ADMIN")
+        //    .and()
+        //    .formLogin()
+        //    .and()
+        //    .csrf().disable();
+
+        //# 3.
         http.authorizeRequests()
             .antMatchers("/todos*").hasAuthority("USER")
             .antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ADMIN")
             .and()
-            .formLogin()
-            .and()
-            .csrf().disable();
+            .formLogin();
+
+        //# 아래 코드를 이용 CsrfTokenRepository 변경이 가능, 그렇다면 기본값은?
+        //HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        //repository.setSessionAttributeName("csrf_token");
+        //repository.setParameterName("csrf_toke");
+        //http.csrf().csrfTokenRepository(repository);
     }
 }
