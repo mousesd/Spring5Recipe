@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -34,16 +35,17 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // SELECT username, authority
         //   FROM authorities
         //  WHERE username = ?
-        //auth.jdbcAuthentication()
-        //    .dataSource(dataSource());
+        auth.jdbcAuthentication()
+            .passwordEncoder(passwordEncoder())
+            .dataSource(dataSource());
 
         //# 3.Supports using custom SQL statement to query for a legacy database
-        auth.jdbcAuthentication()
-            .dataSource(dataSource())
-            .usersByUsernameQuery("SELECT username, password, 'true' as enabled FROM member WHERE username = ?")
-            .authoritiesByUsernameQuery("SELECT member.username, member_role.role as authorities "
-                + "FROM member, member_role "
-                + "WHERE member.username = ? AND member.id = member_role.member_id");
+        //auth.jdbcAuthentication()
+        //    .dataSource(dataSource())
+        //    .usersByUsernameQuery("SELECT username, password, 'true' as enabled FROM member WHERE username = ?")
+        //    .authoritiesByUsernameQuery("SELECT member.username, member_role.role as authorities "
+        //        + "FROM member, member_role "
+        //        + "WHERE member.username = ? AND member.id = member_role.member_id");
     }
 
     @Override
@@ -74,5 +76,10 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .addScript("classpath:/schema.sql")
             .addScript("classpath:/data.sql")
             .build();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
