@@ -10,58 +10,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
-    public TodoSecurityConfiguration() {
-        super(true);
-    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        //# 1.Authenticate user with In-Memory definitions
         auth.inMemoryAuthentication()
-            .withUser("mousesd@gmail.com").password("{noop}gmail").authorities("ROLE_USER")
+            .withUser("mousesd@gmail.com").password("{noop}gmail").authorities("USER", "ADMIN")
             .and()
-            .withUser("mousesd@outlook.com").password("{noop}outlook").authorities("ROLE_USER", "ROLE_ADMIN")
+            .withUser("mousesd@outlook.com").password("{noop}outlook").authorities("USER")
             .and()
-            .withUser("guest").password("{noop}guest").authorities("ROLE_GUEST");
+            .withUser("mousesd@icloud.com").password("{noop}icloud").disabled(true).authorities("USER", "ADMIN");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //# 1.
-        //http.authorizeRequests()
-        //    .anyRequest().authenticated()
-        //    .and()
-        //    .formLogin()
-        //    .and()
-        //    .httpBasic();
-
-        //# 2.
-        //http.authorizeRequests()
-        //    .antMatchers("/todos*").hasAuthority("USER")
-        //    .antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ADMIN")
-        //    .and()
-        //    .formLogin()
-        //    .and()
-        //    .csrf().disable();
-
-        //# 아래 코드를 이용 CsrfTokenRepository 변경이 가능, 그렇다면 기본값은?
-        //HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-        //repository.setSessionAttributeName("csrf_token");
-        //repository.setParameterName("csrf_toke");
-        //http.csrf().csrfTokenRepository(repository);
-
-        //# 3.Http basic authentication
-        //http.authorizeRequests()
-        //    .antMatchers("/todos*").hasAuthority("USER")
-        //    .antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ADMIN")
-        //    .and().securityContext()
-        //    .and().exceptionHandling()
-        //    .and().servletApi()
-        //    .and().httpBasic();
-
-        //# 4.Form-based login
+        //# Form-based login
         http.authorizeRequests()
-                .antMatchers("/todos*").hasAuthority("ROLE_USER")
-                .antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/todos*").hasAuthority("USER")
+                .antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ADMIN")
             .and().securityContext()
             .and().exceptionHandling()
             .and().servletApi()
@@ -73,9 +38,6 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and().logout()
                 .logoutSuccessUrl("/logout-success.jsp")
             .and().headers()
-            .and().anonymous()
-                .principal("guest")
-                .authorities("ROLE_GUEST")
-            .and().rememberMe();
+            .and().httpBasic().disable();
     }
 }
