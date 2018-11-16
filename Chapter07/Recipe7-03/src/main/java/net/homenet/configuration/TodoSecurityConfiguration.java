@@ -34,8 +34,16 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // SELECT username, authority
         //   FROM authorities
         //  WHERE username = ?
+        //auth.jdbcAuthentication()
+        //    .dataSource(dataSource());
+
+        //# 3.Supports using custom SQL statement to query for a legacy database
         auth.jdbcAuthentication()
-            .dataSource(dataSource());
+            .dataSource(dataSource())
+            .usersByUsernameQuery("SELECT username, password, 'true' as enabled FROM member WHERE username = ?")
+            .authoritiesByUsernameQuery("SELECT member.username, member_role.role as authorities "
+                + "FROM member, member_role "
+                + "WHERE member.username = ? AND member.id = member_role.member_id");
     }
 
     @Override
