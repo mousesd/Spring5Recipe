@@ -94,7 +94,7 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AffirmativeBased accessDecisionManager() {
         List<AccessDecisionVoter<?>> voters = Arrays.asList(new RoleVoter()
             , new AuthenticatedVoter()
-            , new WebExpressionVoter()
+            , new WebExpressionVoter()      //# WebExpressionVoter 를 추가하지 않는 경우시 Tomcat 시작시 예외가 발생
             , new IpAddressVoter());
         return new AffirmativeBased(voters);
     }
