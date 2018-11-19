@@ -80,7 +80,7 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .expressionHandler(new ExtendedWebSecurityExpressionHandler())
                 .antMatchers("/todos*").hasAuthority("USER")
-                .antMatchers(HttpMethod.DELETE, "/todos*").access("hasRole('ROLE_ADMIN') or localaccess()")
+                .antMatchers(HttpMethod.DELETE, "/todos*").access("hasAuthority('ROLE_ADMIN') or localaccess()")
             .and().securityContext()
             .and().exceptionHandling()
             .and().servletApi()
