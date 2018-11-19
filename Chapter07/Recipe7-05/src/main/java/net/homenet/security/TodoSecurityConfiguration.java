@@ -58,22 +58,19 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //# 1.Custom AccessDecisionManager 를 사용하는 경우
         //# Form-based login
-        //http.authorizeRequests()
-        //        .accessDecisionManager(accessDecisionManager())
-        //        .antMatchers("/todos*").hasAuthority("USER")
-        //        .antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ADMIN")
-        //    .and().securityContext()
-        //    .and().exceptionHandling()
-        //    .and().servletApi()
-        //    .and().formLogin()
-        //        .loginPage("/login.jsp")
-        //        .loginProcessingUrl("/login")
-        //        .failureUrl("/login.jsp?error=true")
-        //        .defaultSuccessUrl("/todos")
-        //    .and().logout()
-        //        .logoutSuccessUrl("/logout-success.jsp")
-        //    .and().headers()
-        //    .and().httpBasic().disable();
+        http.authorizeRequests()
+                .antMatchers("/todos*").hasAuthority("USER")
+                .antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ADMIN")
+            .and().formLogin()
+                .loginPage("/login.jsp")
+                .loginProcessingUrl("/login")
+                .failureUrl("/login.jsp?error=true")
+                .defaultSuccessUrl("/todos")
+                .permitAll()
+            .and().logout()
+                .logoutSuccessUrl("/logout-success.jsp")
+            .and().headers()
+            .and().httpBasic().disable();
 
         //# 2.Use an expression to make access control decision
         //# Form-based login
@@ -96,22 +93,22 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         //# 3.Use an expression to make access control decisions using Spring Beans
         //# Form-based login
-        http.authorizeRequests()
-                .antMatchers("/todos*").hasAuthority("USER")
-                .antMatchers(HttpMethod.DELETE, "/todos*")
-                    .access("hasAuthority('ADMIN') or @accessChecker.hasLocalAccess(authentication)")
-            .and().securityContext()
-            .and().exceptionHandling()
-            .and().servletApi()
-            .and().formLogin()
-                .loginPage("/login.jsp")
-                .loginProcessingUrl("/login")
-                .failureUrl("/login.jsp?error=true")
-                .defaultSuccessUrl("/todos")
-            .and().logout()
-                .logoutSuccessUrl("/logout-success.jsp")
-            .and().headers()
-            .and().httpBasic().disable();
+        //http.authorizeRequests()
+        //        .antMatchers("/todos*").hasAuthority("USER")
+        //        .antMatchers(HttpMethod.DELETE, "/todos*")
+        //            .access("hasAuthority('ADMIN') or @accessChecker.hasLocalAccess(authentication)")
+        //    .and().securityContext()
+        //    .and().exceptionHandling()
+        //    .and().servletApi()
+        //    .and().formLogin()
+        //        .loginPage("/login.jsp")
+        //        .loginProcessingUrl("/login")
+        //        .failureUrl("/login.jsp?error=true")
+        //        .defaultSuccessUrl("/todos")
+        //    .and().logout()
+        //        .logoutSuccessUrl("/logout-success.jsp")
+        //    .and().headers()
+        //    .and().httpBasic().disable();
     }
 
     @Bean
@@ -129,17 +126,17 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public AffirmativeBased accessDecisionManager() {
-        List<AccessDecisionVoter<?>> voters = Arrays.asList(new RoleVoter()
-            , new AuthenticatedVoter()
-            , new WebExpressionVoter()      //# WebExpressionVoter 를 추가하지 않는 경우시 Tomcat 시작시 예외가 발생
-            , new IpAddressVoter());
-        return new AffirmativeBased(voters);
-    }
+    //@Bean
+    //public AffirmativeBased accessDecisionManager() {
+    //    List<AccessDecisionVoter<?>> voters = Arrays.asList(new RoleVoter()
+    //        , new AuthenticatedVoter()
+    //        , new WebExpressionVoter()      //# WebExpressionVoter 를 추가하지 않는 경우시 Tomcat 시작시 예외가 발생
+    //        , new IpAddressVoter());
+    //    return new AffirmativeBased(voters);
+    //}
 
-    @Bean
-    public AccessChecker accessChecker() {
-        return new AccessChecker();
-    }
+    //@Bean
+    //public AccessChecker accessChecker() {
+    //    return new AccessChecker();
+    //}
 }
