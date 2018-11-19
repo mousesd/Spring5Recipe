@@ -77,10 +77,29 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         //# 2.Use an expression to make access control decision
         //# Form-based login
+        //http.authorizeRequests()
+        //        .expressionHandler(new ExtendedWebSecurityExpressionHandler())
+        //        .antMatchers("/todos*").hasAuthority("USER")
+        //        .antMatchers(HttpMethod.DELETE, "/todos*").access("hasAuthority('ADMIN') or localaccess()")
+        //    .and().securityContext()
+        //    .and().exceptionHandling()
+        //    .and().servletApi()
+        //    .and().formLogin()
+        //        .loginPage("/login.jsp")
+        //        .loginProcessingUrl("/login")
+        //        .failureUrl("/login.jsp?error=true")
+        //        .defaultSuccessUrl("/todos")
+        //    .and().logout()
+        //        .logoutSuccessUrl("/logout-success.jsp")
+        //    .and().headers()
+        //    .and().httpBasic().disable();
+
+        //# 3.Use an expression to make access control decisions using Spring Beans
+        //# Form-based login
         http.authorizeRequests()
-                .expressionHandler(new ExtendedWebSecurityExpressionHandler())
                 .antMatchers("/todos*").hasAuthority("USER")
-                .antMatchers(HttpMethod.DELETE, "/todos*").access("hasAuthority('ADMIN') or localaccess()")
+                .antMatchers(HttpMethod.DELETE, "/todos*")
+                    .access("hasAuthority('ADMIN') or @accessChecker.hasLocalAccess(authentication)")
             .and().securityContext()
             .and().exceptionHandling()
             .and().servletApi()
@@ -117,5 +136,10 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
             , new WebExpressionVoter()      //# WebExpressionVoter 를 추가하지 않는 경우시 Tomcat 시작시 예외가 발생
             , new IpAddressVoter());
         return new AffirmativeBased(voters);
+    }
+
+    @Bean
+    public AccessChecker accessChecker() {
+        return new AccessChecker();
     }
 }
