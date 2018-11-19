@@ -2,7 +2,8 @@ package net.homenet.service;
 
 import net.homenet.domain.Todo;
 import net.homenet.repository.TodoRepository;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,34 +16,35 @@ public class TodoServiceImpl implements TodoService {
         this.repository = repository;
     }
 
-    @Secured("USER")
     @Override
+    @PreAuthorize("hasAuthority('USER')")
     public List<Todo> listTodos() {
         return repository.findAll();
     }
 
-    @Secured("USER")
     @Override
+    @PreAuthorize("hasAuthority('USER')")
     public void save(Todo todo) {
         repository.save(todo);
     }
 
-    @Secured("USER")
     @Override
+    @PreAuthorize("hasAuthority('USER')")
     public void complete(long id) {
         Todo todo = repository.findOne(id);
         todo.setCompleted(true);
         repository.save(todo);
     }
 
-    @Secured({ "USER", "ADMIN" })
     @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void remove(long id) {
         repository.remove(id);
     }
 
-    @Secured("USER")
     @Override
+    @PreAuthorize("hasAuthority('USER')")
+    @PostAuthorize("returnObject.owner == authentication.name")
     public Todo findById(long id) {
         return repository.findOne(id);
     }
