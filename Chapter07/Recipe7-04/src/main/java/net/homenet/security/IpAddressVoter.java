@@ -1,4 +1,4 @@
-package net.homenet.configuration;
+package net.homenet.security;
 
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;

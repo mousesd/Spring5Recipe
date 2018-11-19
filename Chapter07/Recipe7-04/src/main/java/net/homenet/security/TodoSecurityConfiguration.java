@@ -1,4 +1,4 @@
-package net.homenet.configuration;
+package net.homenet.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,11 +56,31 @@ public class TodoSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //# 1.Custom AccessDecisionManager 를 사용하는 경우
+        //# Form-based login
+        //http.authorizeRequests()
+        //        .accessDecisionManager(accessDecisionManager())
+        //        .antMatchers("/todos*").hasAuthority("USER")
+        //        .antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ADMIN")
+        //    .and().securityContext()
+        //    .and().exceptionHandling()
+        //    .and().servletApi()
+        //    .and().formLogin()
+        //        .loginPage("/login.jsp")
+        //        .loginProcessingUrl("/login")
+        //        .failureUrl("/login.jsp?error=true")
+        //        .defaultSuccessUrl("/todos")
+        //    .and().logout()
+        //        .logoutSuccessUrl("/logout-success.jsp")
+        //    .and().headers()
+        //    .and().httpBasic().disable();
+
+        //# 2.Use an expression to make access control decision
         //# Form-based login
         http.authorizeRequests()
-                .accessDecisionManager(accessDecisionManager())
+                .expressionHandler(new ExtendedWebSecurityExpressionHandler())
                 .antMatchers("/todos*").hasAuthority("USER")
-                .antMatchers(HttpMethod.DELETE, "/todos*").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/todos*").access("hasRole('ROLE_ADMIN') or localaccess()")
             .and().securityContext()
             .and().exceptionHandling()
             .and().servletApi()
