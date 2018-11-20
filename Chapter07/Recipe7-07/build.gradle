@@ -37,6 +37,7 @@ dependencies {
     compile "org.hibernate:hibernate-core:5.2.12.Final"
     compile "javax.validation:validation-api:2.0.1.Final"
     compile "org.slf4j:slf4j-simple:1.7.25"
+    compile 'net.sf.ehcache:ehcache:2.9.0'
 
     runtime "com.h2database:h2:1.4.196"
     runtime "org.springframework.security:spring-security-ldap:5.0.0.RELEASE"

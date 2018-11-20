@@ -2,9 +2,12 @@ package net.homenet.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.acls.AclEntryVoter;
 import org.springframework.security.acls.domain.*;
 import org.springframework.security.acls.jdbc.BasicLookupStrategy;
@@ -20,6 +23,7 @@ import javax.sql.DataSource;
 import java.util.Objects;
 
 @Configuration
+@EnableCaching
 public class TodoAclConfiguration {
     private final DataSource dataSource;
 
@@ -30,7 +34,10 @@ public class TodoAclConfiguration {
 
     @Bean
     public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
-        return new EhCacheManagerFactoryBean();
+        EhCacheManagerFactoryBean bean = new EhCacheManagerFactoryBean();
+        bean.setConfigLocation(new ClassPathResource("ehcache.xml"));
+        bean.setShared(true);
+        return bean;
     }
 
     @Bean
@@ -48,7 +55,11 @@ public class TodoAclConfiguration {
         return new AclAuthorizationStrategyImpl(new SimpleGrantedAuthority("ADMIN"));
     }
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Bean
+    public CacheManager cacheManager() {
+        return new EhCacheCacheManager(ehCacheManagerFactoryBean().getObject());
+    }
+
     @Bean
     public AclCache aclCache(CacheManager cacheManager) {
         return new SpringCacheBasedAclCache(Objects.requireNonNull(cacheManager.getCache("aclCache"))
