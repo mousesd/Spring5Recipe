@@ -41,7 +41,11 @@
         <tbody>
         <c:forEach items="${todos}" var="todo">
             <tr>
-                <td>${todo.owner}</td>
+                <td>
+                    <security:authorize access="hasAnyAuthority('USER', 'ADMIN')">
+                        ${todo.owner}
+                    </security:authorize>
+                </td>
                 <td>${todo.description}</td>
                 <td>${todo.completed}</td>
                 <td>
