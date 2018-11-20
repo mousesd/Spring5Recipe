@@ -3,6 +3,7 @@ package net.homenet.service;
 import net.homenet.domain.Todo;
 import net.homenet.repository.TodoRepository;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     @PreAuthorize("hasAuthority('USER')")
+    @PostFilter("hasAnyAuthority('ADMIN') or filterObject.owner == authentication.name")
     public List<Todo> listTodos() {
         return repository.findAll();
     }
