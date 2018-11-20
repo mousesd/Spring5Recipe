@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <html>
 <head>
@@ -6,6 +7,13 @@
     <link type="text/css" rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
 </head>
+
+<security:authentication property="authorities" var="authorities"/>
+<ul>
+    <c:forEach items="${authorities}" var="authority">
+        <li>${authority.authority}</li>
+    </c:forEach>
+</ul>
 
 <body>
 <div class="ui container">
@@ -20,7 +28,7 @@
             </div>
         </div>
     </div>
-    <h4>To-dos for ${principal.name}</h4>
+    <h4>To-dos for <security:authentication property="name"/></h4>
     <table class="ui celled table">
         <thead>
         <tr>
