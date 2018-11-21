@@ -31,6 +31,7 @@ dependencies {
     compile "org.springframework.security:spring-security-core:5.0.0.RELEASE"
     compile "org.springframework.security:spring-security-web:5.0.0.RELEASE"
     compile "org.springframework.security:spring-security-taglibs:5.0.0.RELEASE"
+    compile "org.springframework.security:spring-security-webflux:5.0.0.M5"
     compile "org.springframework.ldap:spring-ldap-core:2.3.2.RELEASE"
     compile "javax.servlet:javax.servlet-api:4.0.0"
     compile "javax.servlet:jstl:1.2"
