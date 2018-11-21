@@ -33,7 +33,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     @PreAuthorize("hasAuthority('USER')")
-    @PostFilter("hasAnyAuthority('ADMIN') or filterObject.owner == authentication.name")
+    @PostFilter("hasAnyAuthority('ADMIN') or hasPermission(filterObject, 'read')")
     public List<Todo> listTodos() {
         return repository.findAll();
     }
@@ -55,7 +55,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasPermission(#id, 'net.homenet.domain.Todo', 'write')")
     public void complete(long id) {
         Todo todo = repository.findOne(id);
         todo.setCompleted(true);
@@ -63,7 +63,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasPermission(#id, 'net.homenet.domain.Todo', 'delete')")
     public void remove(long id) {
         repository.remove(id);
 
@@ -73,7 +73,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     @PreAuthorize("hasAuthority('USER')")
-    @PostAuthorize("returnObject.owner == authentication.name")
+    @PostAuthorize("hasPermission(returnObject, 'read')")
     public Todo findById(long id) {
         return repository.findOne(id);
     }
