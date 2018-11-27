@@ -10,6 +10,8 @@
 <p>
     Your type of device: <core:out value="${requestScope.currentDevice}" />
 </p>
-
+<p>
+    Your site preferences <core:out value="${requestScope.currentSitePreference}"/>
+</p>
 </body>
 </html>

@@ -1,6 +1,10 @@
 package net.homenet.configuration;
 
+import org.springframework.mobile.device.DeviceResolverRequestFilter;
+import org.springframework.mobile.device.site.SitePreferenceRequestFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 public class MobileAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
@@ -19,8 +23,11 @@ public class MobileAppInitializer extends AbstractAnnotationConfigDispatcherServ
     }
 
     //# 1) Use DeviceResolverRequestFilter!
-    //@Override
-    //protected Filter[] getServletFilters() {
-    //    return new Filter[]{ new DeviceResolverRequestFilter() };
-    //}
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{
+            new DeviceResolverRequestFilter(),
+            new SitePreferenceRequestFilter()
+        };
+    }
 }
