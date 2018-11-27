@@ -1,6 +1,6 @@
 package net.homenet.configuration;
 
-import net.homenet.filter.DeviceResolverRequestFilter;
+import org.springframework.mobile.device.DeviceResolverRequestFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
