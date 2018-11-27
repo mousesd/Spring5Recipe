@@ -22,12 +22,12 @@ public class MobileAppInitializer extends AbstractAnnotationConfigDispatcherServ
         return new String[]{ "/" };
     }
 
-    //# 1) Use DeviceResolverRequestFilter!
-    @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[]{
-            new DeviceResolverRequestFilter(),
-            new SitePreferenceRequestFilter()
-        };
-    }
+    //# 1) Use DeviceResolverRequestFilter and SitePreferenceRequestFilter!
+    //@Override
+    //protected Filter[] getServletFilters() {
+    //    return new Filter[]{
+    //        new DeviceResolverRequestFilter(),
+    //        new SitePreferenceRequestFilter()
+    //    };
+    //}
 }
