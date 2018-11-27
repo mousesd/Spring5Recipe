@@ -21,8 +21,9 @@ public class MobileAppInitializer extends AbstractAnnotationConfigDispatcherServ
         return new String[]{ "/" };
     }
 
-    @Override
-    protected Filter[] getServletFilters() {
-        return new Filter[]{ new DeviceResolverRequestFilter() };
-    }
+    //# 1) Use DeviceResolverRequestFilter!
+    //@Override
+    //protected Filter[] getServletFilters() {
+    //    return new Filter[]{ new DeviceResolverRequestFilter() };
+    //}
 }
