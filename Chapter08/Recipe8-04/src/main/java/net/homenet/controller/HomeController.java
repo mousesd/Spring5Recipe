@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class HomeController {
-    //# 1. Use Device, DeviceUtils class in controller)
+    //# 1.Use Device, DeviceUtils class in controller)
     //@RequestMapping("/home")
     //public String index(HttpServletRequest request) {
     //    Device device = DeviceUtils.getCurrentDevice(request);
@@ -23,14 +23,20 @@ public class HomeController {
     //}
 
     //# 2.Use MethodArgumentResolver
+    //@RequestMapping("/home")
+    //public String index(Device device) {
+    //    if (device.isMobile()) {
+    //        return "mobile/home";
+    //    } else if (device.isTablet()) {
+    //        return "tablet/home";
+    //    } else {
+    //        return "home";
+    //    }
+    //}
+
+    //# 3.Use LiteDeviceDelegatingViewResolver
     @RequestMapping("/home")
-    public String index(Device device) {
-        if (device.isMobile()) {
-            return "mobile/home";
-        } else if (device.isTablet()) {
-            return "tablet/home";
-        } else {
-            return "home";
-        }
+    public String index() {
+        return "home";
     }
 }
