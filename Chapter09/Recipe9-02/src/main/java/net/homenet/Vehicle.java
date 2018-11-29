@@ -13,6 +13,8 @@ public class Vehicle {
         this.seat = seat;
     }
 
+    public Vehicle() { }
+
     public String getVehicleNo() {
         return vehicleNo;
     }

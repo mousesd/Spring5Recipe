@@ -1,6 +1,7 @@
 package net.homenet;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -158,23 +159,49 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
 
     @Override
     public Vehicle findByVehicleNo(String vehicleNo) {
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection
-                .prepareStatement("SELECT * FROM vehicle WHERE vehicle_no = ?")
-        ) {
-            preparedStatement.setString(1, vehicleNo);
+        //# 1.JDBC API
+        //try (
+        //    Connection connection = dataSource.getConnection();
+        //    PreparedStatement preparedStatement = connection
+        //        .prepareStatement("SELECT * FROM vehicle WHERE vehicle_no = ?")
+        //) {
+        //    preparedStatement.setString(1, vehicleNo);
+        //
+        //    Vehicle vehicle = null;
+        //    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        //        if (resultSet.next()) {
+        //            vehicle = toVehicle(resultSet);
+        //        }
+        //    }
+        //    return vehicle;
+        //} catch (SQLException e) {
+        //    throw new RuntimeException();
+        //}
 
-            Vehicle vehicle = null;
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    vehicle = toVehicle(resultSet);
-                }
-            }
-            return vehicle;
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
+        //# 2.RowCallbackHandler(anonymous class)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //Vehicle vehicle = new Vehicle();
+        //jdbcTemplate.query("SELECT * FROM vehicle WHERE vehicle_no = ?", new RowCallbackHandler() {
+        //    @Override
+        //    public void processRow(ResultSet rs) throws SQLException {
+        //        vehicle.setVehicleNo(rs.getString("vehicle_no"));
+        //        vehicle.setColor(rs.getString("color"));
+        //        vehicle.setWheel(rs.getInt("wheel"));
+        //        vehicle.setSeat(rs.getInt("seat"));
+        //    }
+        //}, vehicleNo);
+        //return vehicle;
+
+        //# 3.RowCallbackHandler(lambda expression)
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        Vehicle vehicle = new Vehicle();
+        jdbcTemplate.query("SELECT * FROM vehicle WHERE vehicle_no = ?", rs -> {
+            vehicle.setVehicleNo(rs.getString("vehicle_no"));
+            vehicle.setColor(rs.getString("color"));
+            vehicle.setWheel(rs.getInt("wheel"));
+            vehicle.setSeat(rs.getInt("seat"));
+        }, vehicleNo);
+        return vehicle;
     }
 
     @Override
