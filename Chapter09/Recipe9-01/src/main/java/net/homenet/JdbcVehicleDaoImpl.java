@@ -38,15 +38,24 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
         //jdbcTemplate.update(new InsertVehicleStatementCreator(vehicle));
 
         //# 3.PreparedStatementCreator(anonymous class)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //jdbcTemplate.update(new PreparedStatementCreator() {
+        //    @Override
+        //    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+        //        PreparedStatement preparedStatement = con
+        //            .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
+        //        prepareStatement(preparedStatement, vehicle);
+        //        return preparedStatement;
+        //    }
+        //});
+
+        //# 4.PreparedStatementCreator(lambda expression)
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement preparedStatement = con
-                    .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
-                prepareStatement(preparedStatement, vehicle);
-                return preparedStatement;
-            }
+        jdbcTemplate.update(con -> {
+            PreparedStatement preparedStatement = con
+                .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
+            prepareStatement(preparedStatement, vehicle);
+            return preparedStatement;
         });
     }
 
