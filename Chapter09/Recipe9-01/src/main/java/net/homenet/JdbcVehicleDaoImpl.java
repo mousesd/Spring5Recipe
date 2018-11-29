@@ -1,6 +1,7 @@
 package net.homenet;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ParameterizedPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 
@@ -10,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("Duplicates")
@@ -84,10 +86,37 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
     }
 
     @Override
-    public void insert(Iterable<Vehicle> vehicles) {
-        for (Vehicle vehicle : vehicles) {
-            insert(vehicle);
-        }
+    public void insert(Collection<Vehicle> vehicles) {
+        //# 1.
+        //for (Vehicle vehicle : vehicles) {
+        //    insert(vehicle);
+        //}
+
+        //# 2.Batch update a database(anonymous class)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //jdbcTemplate.batchUpdate("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)"
+        //    , vehicles
+        //    , vehicles.size()
+        //    , new ParameterizedPreparedStatementSetter<Vehicle>() {
+        //        @Override
+        //        public void setValues(PreparedStatement ps, Vehicle argument) throws SQLException {
+        //            prepareStatement(ps, argument);
+        //        }
+        //    });
+
+        //# 3.Batch update a database(lambda expression #1)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //jdbcTemplate.batchUpdate("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)"
+        //    , vehicles
+        //    , vehicles.size()
+        //    , (ps, argument) -> prepareStatement(ps, argument));
+
+        //# 4.Batch update a database(lambda expression #2)
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.batchUpdate("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)"
+            , vehicles
+            , vehicles.size()
+            , this::prepareStatement);
     }
 
     @Override
