@@ -34,8 +34,20 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
         //}
 
         //# 2.PreparedStatementCreator(private inner class)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //jdbcTemplate.update(new InsertVehicleStatementCreator(vehicle));
+
+        //# 3.PreparedStatementCreator(anonymous class)
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate.update(new InsertVehicleStatementCreator(vehicle));
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement preparedStatement = con
+                    .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
+                prepareStatement(preparedStatement, vehicle);
+                return preparedStatement;
+            }
+        });
     }
 
     @Override
@@ -138,19 +150,19 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
             , resultSet.getInt("seat"));
     }
 
-    private class InsertVehicleStatementCreator implements PreparedStatementCreator {
-        private final Vehicle vehicle;
-
-        private InsertVehicleStatementCreator(Vehicle vehicle) {
-            this.vehicle = vehicle;
-        }
-
-        @Override
-        public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-            PreparedStatement preparedStatement = con
-                .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
-            prepareStatement(preparedStatement, vehicle);
-            return preparedStatement;
-        }
-    }
+    //private class InsertVehicleStatementCreator implements PreparedStatementCreator {
+    //    private final Vehicle vehicle;
+    //
+    //    private InsertVehicleStatementCreator(Vehicle vehicle) {
+    //        this.vehicle = vehicle;
+    //    }
+    //
+    //    @Override
+    //    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+    //        PreparedStatement preparedStatement = con
+    //            .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
+    //        prepareStatement(preparedStatement, vehicle);
+    //        return preparedStatement;
+    //    }
+    //}
 }
