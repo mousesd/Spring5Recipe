@@ -74,6 +74,18 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
     }
 
     @Override
+    public void deleteAll() {
+        try (
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM vehicle")
+        ) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
     public Vehicle findByVehicleNo(String vehicleNo) {
         try (
             Connection connection = dataSource.getConnection();

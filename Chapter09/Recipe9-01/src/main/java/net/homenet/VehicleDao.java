@@ -7,6 +7,7 @@ public interface VehicleDao {
     void insert(Iterable<Vehicle> vehicles);
     void update(Vehicle vehicle);
     void delete(Vehicle vehicle);
+    void deleteAll();
     Vehicle findByVehicleNo(String vehicleNo);
     List<Vehicle> findAll();
 }

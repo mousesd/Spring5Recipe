@@ -9,6 +9,8 @@ public class Main {
         ApplicationContext context = new AnnotationConfigApplicationContext(VehicleConfiguration.class);
 
         VehicleDao vehicleDao = context.getBean(VehicleDao.class);
+        vehicleDao.deleteAll();
+
         Vehicle vehicle = new Vehicle("TEM0001", "Red", 4, 4);
         vehicleDao.insert(vehicle);
 
