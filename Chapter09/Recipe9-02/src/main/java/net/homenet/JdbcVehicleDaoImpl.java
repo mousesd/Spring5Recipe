@@ -285,6 +285,18 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
             , BeanPropertyRowMapper.newInstance(Vehicle.class));
     }
 
+    @Override
+    public String getColor(String vehicleNo) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        return jdbcTemplate.queryForObject("SELECT color FROM vehicle WHERE vehicle_no = ?", String.class, vehicleNo);
+    }
+
+    @Override
+    public int countAll() {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM vehicle", Integer.class);
+    }
+
     private void prepareStatement(PreparedStatement preparedStatement, Vehicle vehicle) throws SQLException {
         preparedStatement.setString(1, vehicle.getColor());
         preparedStatement.setInt(2, vehicle.getWheel());

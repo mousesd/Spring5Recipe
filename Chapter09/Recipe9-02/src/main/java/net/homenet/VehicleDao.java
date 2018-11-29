@@ -11,4 +11,6 @@ public interface VehicleDao {
     void deleteAll();
     Vehicle findByVehicleNo(String vehicleNo);
     List<Vehicle> findAll();
+    String getColor(String vehicleNo);
+    int countAll();
 }

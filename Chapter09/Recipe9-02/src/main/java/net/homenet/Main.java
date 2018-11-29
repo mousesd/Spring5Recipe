@@ -29,5 +29,8 @@ public class Main {
 
         List<Vehicle> vehicles = vehicleDao.findAll();
         vehicles.forEach(System.out::println);
+
+        System.out.println("Vehicle count: " + vehicleDao.countAll());
+        System.out.println("Color for [TEM0001]: " + vehicleDao.getColor("TEM0001"));
     }
 }
