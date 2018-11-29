@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("Duplicates")
 public class Main {
@@ -25,5 +26,8 @@ public class Main {
         Vehicle vehicle2 = new Vehicle("TEM0023", "Black", 4, 5);
         Vehicle vehicle3 = new Vehicle("TEM0024", "Green", 4, 6);
         vehicleDao.insert(Arrays.asList(vehicle1, vehicle2, vehicle3));
+
+        List<Vehicle> vehicles = vehicleDao.findAll();
+        vehicles.forEach(System.out::println);
     }
 }

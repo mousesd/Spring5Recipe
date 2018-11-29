@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("Duplicates")
 public class JdbcVehicleDaoImpl implements VehicleDao {
@@ -232,20 +234,55 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
 
     @Override
     public List<Vehicle> findAll() {
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM vehicle")
-        ) {
-            List<Vehicle> vehicles = new ArrayList<>();
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    vehicles.add(toVehicle(resultSet));
-                }
-            }
-            return vehicles;
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
+        // 1.JDBC API
+        //try (
+        //    Connection connection = dataSource.getConnection();
+        //    PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM vehicle")
+        //) {
+        //    List<Vehicle> vehicles = new ArrayList<>();
+        //    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        //        if (resultSet.next()) {
+        //            vehicles.add(toVehicle(resultSet));
+        //        }
+        //    }
+        //    return vehicles;
+        //} catch (SQLException e) {
+        //    throw new RuntimeException();
+        //}
+
+        //# RowMapper<T>(private inner class)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //return jdbcTemplate.query("SELECT * FROM vehicle", new VehicleRowMapper());
+
+        //# RowMapper<T>(anonymous class)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //return jdbcTemplate.query("SELECT * FROM vehicle", new RowMapper<Vehicle>() {
+        //    @Override
+        //    public Vehicle mapRow(ResultSet rs, int rowNum) throws SQLException {
+        //        return toVehicle(rs);
+        //    }
+        //});
+
+        //# RowMapper<T>(lambda expression #1)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //return jdbcTemplate.query("SELECT * FROM vehicle", (rs, rowNum) -> toVehicle(rs));
+
+        //# 2.RowMapper<T>(lambda expression #2)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //List<Map<String, Object>> rows = jdbcTemplate.queryForList("SELECT * FROM vehicle");
+        //return rows.stream().map(row -> {
+        //    Vehicle vehicle = new Vehicle();
+        //    vehicle.setVehicleNo((String) row.get("vehicle_no"));
+        //    vehicle.setColor((String) row.get("color"));
+        //    vehicle.setWheel((Integer) row.get("wheel"));
+        //    vehicle.setSeat((Integer) row.get("seat"));
+        //    return vehicle;
+        //}).collect(Collectors.toList());
+
+        //# 3.RowMapper<T>(BeanPropertyRowMapper<T>)
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        return jdbcTemplate.query("SELECT * FROM vehicle"
+            , BeanPropertyRowMapper.newInstance(Vehicle.class));
     }
 
     private void prepareStatement(PreparedStatement preparedStatement, Vehicle vehicle) throws SQLException {
