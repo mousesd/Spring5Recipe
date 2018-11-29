@@ -1,5 +1,8 @@
 package net.homenet;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("Duplicates")
 public class JdbcVehicleDaoImpl implements VehicleDao {
     private final DataSource dataSource;
 
@@ -17,16 +21,21 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
 
     @Override
     public void insert(Vehicle vehicle) {
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection
-                .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)")
-        ) {
-            prepareStatement(preparedStatement, vehicle);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
+        //# 1.JDBC API
+        //try (
+        //    Connection connection = dataSource.getConnection();
+        //    PreparedStatement preparedStatement = connection
+        //        .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)")
+        //) {
+        //    prepareStatement(preparedStatement, vehicle);
+        //    preparedStatement.executeUpdate();
+        //} catch (SQLException e) {
+        //    throw new RuntimeException();
+        //}
+
+        //# 2.PreparedStatementCreator(private inner class)
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.update(new InsertVehicleStatementCreator(vehicle));
     }
 
     @Override
@@ -115,5 +124,21 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
             , resultSet.getString("color")
             , resultSet.getInt("wheel")
             , resultSet.getInt("seat"));
+    }
+
+    private class InsertVehicleStatementCreator implements PreparedStatementCreator {
+        private final Vehicle vehicle;
+
+        private InsertVehicleStatementCreator(Vehicle vehicle) {
+            this.vehicle = vehicle;
+        }
+
+        @Override
+        public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+            PreparedStatement preparedStatement = con
+                .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
+            prepareStatement(preparedStatement, vehicle);
+            return preparedStatement;
+        }
     }
 }
