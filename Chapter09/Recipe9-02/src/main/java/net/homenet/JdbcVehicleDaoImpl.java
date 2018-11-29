@@ -1,7 +1,6 @@
 package net.homenet;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -193,15 +192,42 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
         //return vehicle;
 
         //# 3.RowCallbackHandler(lambda expression)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //Vehicle vehicle = new Vehicle();
+        //jdbcTemplate.query("SELECT * FROM vehicle WHERE vehicle_no = ?", rs -> {
+        //    vehicle.setVehicleNo(rs.getString("vehicle_no"));
+        //    vehicle.setColor(rs.getString("color"));
+        //    vehicle.setWheel(rs.getInt("wheel"));
+        //    vehicle.setSeat(rs.getInt("seat"));
+        //}, vehicleNo);
+        //return vehicle;
+
+        //# 4.RowMapper<T>(private inner class)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //return jdbcTemplate.queryForObject("SELECT * FROM vehicle WHERE vehicle_no = ?"
+        //    , new VehicleRowMapper()
+        //    , vehicleNo);
+
+        //# 5.RowMapper<T>(anonymous class)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //return jdbcTemplate.queryForObject("SELECT * FROM vehicle WHERE vehicle_no = ?", new RowMapper<Vehicle>() {
+        //    @Override
+        //    public Vehicle mapRow(ResultSet rs, int rowNum) throws SQLException {
+        //        return toVehicle(rs);
+        //    }
+        //}, vehicleNo);
+
+        //# 6.RowMapper<T>(lambda expression)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //return jdbcTemplate.queryForObject("SELECT * FROM vehicle WHERE vehicle_no = ?"
+        //    , (rs, rowNum) -> toVehicle(rs)
+        //    , vehicleNo);
+
+        //# 7.RowMapper<T>(BeanPropertyRowMapper<T>)
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        Vehicle vehicle = new Vehicle();
-        jdbcTemplate.query("SELECT * FROM vehicle WHERE vehicle_no = ?", rs -> {
-            vehicle.setVehicleNo(rs.getString("vehicle_no"));
-            vehicle.setColor(rs.getString("color"));
-            vehicle.setWheel(rs.getInt("wheel"));
-            vehicle.setSeat(rs.getInt("seat"));
-        }, vehicleNo);
-        return vehicle;
+        return jdbcTemplate.queryForObject("SELECT * FROM vehicle WHERE vehicle_no = ?"
+            , BeanPropertyRowMapper.newInstance(Vehicle.class)
+            , vehicleNo);
     }
 
     @Override
@@ -236,19 +262,26 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
             , resultSet.getInt("seat"));
     }
 
-    //private class InsertVehicleStatementCreator implements PreparedStatementCreator {
-    //    private final Vehicle vehicle;
-    //
-    //    private InsertVehicleStatementCreator(Vehicle vehicle) {
-    //        this.vehicle = vehicle;
-    //    }
-    //
-    //    @Override
-    //    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-    //        PreparedStatement preparedStatement = con
-    //            .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
-    //        prepareStatement(preparedStatement, vehicle);
-    //        return preparedStatement;
-    //    }
-    //}
+    private class InsertVehicleStatementCreator implements PreparedStatementCreator {
+        private final Vehicle vehicle;
+
+        private InsertVehicleStatementCreator(Vehicle vehicle) {
+            this.vehicle = vehicle;
+        }
+
+        @Override
+        public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+            PreparedStatement preparedStatement = con
+                .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
+            prepareStatement(preparedStatement, vehicle);
+            return preparedStatement;
+        }
+    }
+
+    private class VehicleRowMapper implements RowMapper<Vehicle> {
+        @Override
+        public Vehicle mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return toVehicle(rs);
+        }
+    }
 }
