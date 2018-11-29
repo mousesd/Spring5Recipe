@@ -2,6 +2,7 @@ package net.homenet;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -50,13 +51,28 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
         //});
 
         //# 4.PreparedStatementCreator(lambda expression)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //jdbcTemplate.update(con -> {
+        //    PreparedStatement preparedStatement = con
+        //        .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
+        //    prepareStatement(preparedStatement, vehicle);
+        //    return preparedStatement;
+        //});
+
+        //# 5.PreparedStatementSetter(anonymous class)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //jdbcTemplate.update("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)"
+        //    , new PreparedStatementSetter() {
+        //        @Override
+        //        public void setValues(PreparedStatement ps) throws SQLException {
+        //            prepareStatement(ps, vehicle);
+        //        }
+        //    });
+
+        //# 6.PreparedStatementSetter(lambda expression)
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate.update(con -> {
-            PreparedStatement preparedStatement = con
-                .prepareStatement("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)");
-            prepareStatement(preparedStatement, vehicle);
-            return preparedStatement;
-        });
+        jdbcTemplate.update("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)"
+            , ps -> prepareStatement(ps, vehicle));
     }
 
     @Override
