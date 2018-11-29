@@ -5,6 +5,7 @@ import net.homenet.JdbcVehicleDaoImpl;
 import net.homenet.VehicleDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
@@ -23,7 +24,12 @@ public class VehicleConfiguration {
     }
 
     @Bean
-    public VehicleDao vehicleDao() {
-        return new JdbcVehicleDaoImpl(dataSource());
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public VehicleDao vehicleDao(JdbcTemplate jdbcTemplate) {
+        return new JdbcVehicleDaoImpl(jdbcTemplate);
     }
 }

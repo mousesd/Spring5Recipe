@@ -15,10 +15,10 @@ import java.util.List;
 
 @SuppressWarnings("Duplicates")
 public class JdbcVehicleDaoImpl implements VehicleDao {
-    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
 
-    public JdbcVehicleDaoImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public JdbcVehicleDaoImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -76,7 +76,6 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
         //    , ps -> prepareStatement(ps, vehicle));
 
         //# 7.Update a database with a SQL statement and parameter values
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.update("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)"
             , vehicle.getColor()
             , vehicle.getWheel()
@@ -111,7 +110,6 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
         //    , (ps, argument) -> prepareStatement(ps, argument));
 
         //# 4.Batch update a database(lambda expression #2)
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.batchUpdate("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)"
             , vehicles
             , vehicles.size()
@@ -120,42 +118,59 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
 
     @Override
     public void update(Vehicle vehicle) {
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection
-                .prepareStatement("UPDATE vehicle SET color = ?, wheel = ?, seat = ? WHERE vehicle_no = ?")
-        ) {
-            prepareStatement(preparedStatement, vehicle);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
+        //# JDBC API
+        //try (
+        //    Connection connection = dataSource.getConnection();
+        //    PreparedStatement preparedStatement = connection
+        //        .prepareStatement("UPDATE vehicle SET color = ?, wheel = ?, seat = ? WHERE vehicle_no = ?")
+        //) {
+        //    prepareStatement(preparedStatement, vehicle);
+        //    preparedStatement.executeUpdate();
+        //} catch (SQLException e) {
+        //    throw new RuntimeException();
+        //}
+
+        //# Update a database with a SQL statement and parameter values
+        jdbcTemplate.update("UPDATE vehicle SET color = ?, wheel = ?, seat = ? WHERE vehicle_no = ?"
+            , vehicle.getColor()
+            , vehicle.getWheel()
+            , vehicle.getSeat()
+            , vehicle.getVehicleNo());
     }
 
     @Override
     public void delete(Vehicle vehicle) {
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection
-                .prepareStatement("DELETE FROM vehicle WHERE vehicle_no = ?")
-        ) {
-            preparedStatement.setString(1, vehicle.getVehicleNo());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
+        //# JDBC API
+        //try (
+        //    Connection connection = dataSource.getConnection();
+        //    PreparedStatement preparedStatement = connection
+        //        .prepareStatement("DELETE FROM vehicle WHERE vehicle_no = ?")
+        //) {
+        //    preparedStatement.setString(1, vehicle.getVehicleNo());
+        //    preparedStatement.executeUpdate();
+        //} catch (SQLException e) {
+        //    throw new RuntimeException();
+        //}
+
+        //# Update a database with a SQL statement and parameter values
+        jdbcTemplate.update("DELETE FROM vehicle WHERE vehicle_no = ?"
+            , vehicle.getVehicleNo());
     }
 
     @Override
     public void deleteAll() {
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM vehicle")
-        ) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
+        //# JDBC API
+        //try (
+        //    Connection connection = dataSource.getConnection();
+        //    PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM vehicle")
+        //) {
+        //    preparedStatement.executeUpdate();
+        //} catch (SQLException e) {
+        //    throw new RuntimeException();
+        //}
+
+        //# Update a database with a SQL statement and parameter values
+        jdbcTemplate.update("DELETE FROM vehicle");
     }
 
     @Override
@@ -226,7 +241,6 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
         //    , vehicleNo);
 
         //# 7.RowMapper<T>(BeanPropertyRowMapper<T>)
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         return jdbcTemplate.queryForObject("SELECT * FROM vehicle WHERE vehicle_no = ?"
             , BeanPropertyRowMapper.newInstance(Vehicle.class)
             , vehicleNo);
@@ -280,20 +294,18 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
         //}).collect(Collectors.toList());
 
         //# 3.RowMapper<T>(BeanPropertyRowMapper<T>)
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         return jdbcTemplate.query("SELECT * FROM vehicle"
             , BeanPropertyRowMapper.newInstance(Vehicle.class));
     }
 
     @Override
     public String getColor(String vehicleNo) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         return jdbcTemplate.queryForObject("SELECT color FROM vehicle WHERE vehicle_no = ?", String.class, vehicleNo);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public int countAll() {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM vehicle", Integer.class);
     }
 
