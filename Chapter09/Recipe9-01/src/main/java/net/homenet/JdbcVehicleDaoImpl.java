@@ -70,9 +70,17 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
         //    });
 
         //# 6.PreparedStatementSetter(lambda expression)
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        //jdbcTemplate.update("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)"
+        //    , ps -> prepareStatement(ps, vehicle));
+
+        //# 7.Update a database with a SQL statement and parameter values
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.update("INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (?, ?, ?, ?)"
-            , ps -> prepareStatement(ps, vehicle));
+            , vehicle.getColor()
+            , vehicle.getWheel()
+            , vehicle.getSeat()
+            , vehicle.getVehicleNo());
     }
 
     @Override
