@@ -1,5 +1,6 @@
 package net.homenet;
 
+@SuppressWarnings("WeakerAccess")
 public class Vehicle {
     private String vehicleNo;
     private String color;

@@ -2,6 +2,7 @@ package net.homenet;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -33,10 +34,15 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
         //    , toParameterMap(vehicle));
 
         //# 2.SqlParameterSource - MapSqlParameterSource
-        SqlParameterSource paramSource = new MapSqlParameterSource(toParameterMap(vehicle));
+        //SqlParameterSource paramSource = new MapSqlParameterSource(toParameterMap(vehicle));
+        //namedParameterJdbcTemplate.update(
+        //    "INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (:color, :wheel, :seat, :vehicle_no)"
+        //    , paramSource);
+
+        //# 3.SqlParameterSource - BeanPropertySqlParameterSource
         namedParameterJdbcTemplate.update(
-            "INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (:color, :wheel, :seat, :vehicle_no)"
-            , paramSource);
+            "INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (:color, :wheel, :seat, :vehicleNo)"
+            , new BeanPropertySqlParameterSource(vehicle));
     }
 
     @Override
