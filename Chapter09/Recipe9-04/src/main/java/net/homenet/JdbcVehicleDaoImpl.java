@@ -47,12 +47,22 @@ public class JdbcVehicleDaoImpl implements VehicleDao {
 
     @Override
     public void insert(Collection<Vehicle> vehicles) {
-        Map<String, Object>[] batchValues = vehicles.stream()
-            .map(this::toParameterMap)
-            .toArray((IntFunction<Map<String, Object>[]>) Map[]::new);
+        //# 1.Map<String, Object>
+        //Map<String, Object>[] batchValues = vehicles.stream()
+        //    .map(this::toParameterMap)
+        //    .toArray((IntFunction<Map<String, Object>[]>) Map[]::new);
+        //namedParameterJdbcTemplate.batchUpdate(
+        //    "INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (:color, :wheel, :seat, :vehicle_no)"
+        //    , batchValues);
+
+        //# 2.SqlParameterSource
+        SqlParameterSource[] batchArgs = vehicles.stream()
+            .map(BeanPropertySqlParameterSource::new)
+            .toArray(SqlParameterSource[]::new);
+
         namedParameterJdbcTemplate.batchUpdate(
-            "INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (:color, :wheel, :seat, :vehicle_no)"
-            , batchValues);
+            "INSERT INTO vehicle (color, wheel, seat, vehicle_no) VALUES (:color, :wheel, :seat, :vehicleNo)"
+            , batchArgs);
     }
 
     @Override
