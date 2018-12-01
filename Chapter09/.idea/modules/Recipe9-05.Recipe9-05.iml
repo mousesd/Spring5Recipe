@@ -2,7 +2,11 @@
 <module external.linked.project.id="Recipe9-05" external.linked.project.path="$MODULE_DIR$/../../Recipe9-05" external.root.project.path="$MODULE_DIR$/../../Recipe9-05" external.system.id="GRADLE" external.system.module.group="Recipe9-05" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="VehicleConfiguration" removed="false">
+          <file>file://$MODULE_DIR$/../../Recipe9-05/src/main/java/net/homenet/configuration/VehicleConfiguration.java</file>
+        </fileset>
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager">
