@@ -1,71 +1,41 @@
 package net.homenet;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.*;
 import java.util.List;
 
 @SuppressWarnings({ "JpaQlInspection", "Duplicates" })
+@Repository("courseDao")
 public class JpaCourseDaoImpl implements CourseDao {
-    private final EntityManagerFactory entityManagerFactory;
-
-    public JpaCourseDaoImpl(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
+    @Transactional
     public Course store(Course course) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction tx = entityManager.getTransaction();
-        try {
-            tx.begin();
-            Course persisted = entityManager.merge(course);
-            tx.commit();
-            return persisted;
-        } catch (RuntimeException e) {
-            tx.rollback();
-            throw e;
-        } finally {
-            entityManager.close();
-        }
+        return entityManager.merge(course);
     }
 
     @Override
+    @Transactional
     public void delete(Long courseId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction tx = entityManager.getTransaction();
-        try {
-            tx.begin();
-            Course course = entityManager.find(Course.class, courseId);
-            entityManager.remove(course);
-            tx.commit();
-        } catch (RuntimeException e) {
-            tx.rollback();
-            throw e;
-        } finally {
-            entityManager.close();
-        }
+        Course course = entityManager.find(Course.class, courseId);
+        entityManager.remove(course);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Course findById(Long courseId) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            return entityManager.find(Course.class, courseId);
-        } finally {
-            entityManager.close();
-        }
+        return entityManager.find(Course.class, courseId);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
+    @Transactional(readOnly = true)
     public List<Course> findAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            Query query = entityManager.createQuery("SELECT ID, TITLE, BEGIN_DATE, END_DATE, FEE FROM COURSE");
-            return query.getResultList();
-        } finally {
-            entityManager.close();
-        }
+        Query query = entityManager.createQuery("SELECT ID, TITLE, BEGIN_DATE, END_DATE, FEE FROM COURSE");
+        return query.getResultList();
     }
 }

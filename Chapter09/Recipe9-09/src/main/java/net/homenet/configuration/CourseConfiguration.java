@@ -6,11 +6,14 @@ import net.homenet.JpaCourseDaoImpl;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.dialect.PostgreSQL95Dialect;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -18,7 +21,17 @@ import java.util.Properties;
 
 @SuppressWarnings("Duplicates")
 @Configuration
+@EnableTransactionManagement
+@ComponentScan("net.homenet")
 public class CourseConfiguration {
+    private JpaVendorAdapter jpaVendorAdapter() {
+        HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        adapter.setShowSql(true);
+        adapter.setGenerateDdl(true);
+        adapter.setDatabasePlatform(PostgreSQL95Dialect.class.getName());
+        return adapter;
+    }
+
     @Bean
     public DataSource dataSource() {
         HikariDataSource dataSource = new HikariDataSource();
@@ -28,14 +41,6 @@ public class CourseConfiguration {
         dataSource.setMinimumIdle(2);
         dataSource.setMaximumPoolSize(5);
         return dataSource;
-    }
-
-    private JpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-        adapter.setShowSql(true);
-        adapter.setGenerateDdl(true);
-        adapter.setDatabasePlatform(PostgreSQL95Dialect.class.getName());
-        return adapter;
     }
 
     @Bean
@@ -48,7 +53,12 @@ public class CourseConfiguration {
     }
 
     @Bean
-    public CourseDao courseDao(EntityManagerFactory entityManagerFactory) {
-        return new JpaCourseDaoImpl(entityManagerFactory);
+    public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
     }
+
+    //@Bean
+    //public CourseDao courseDao() {
+    //    return new JpaCourseDaoImpl();
+    //}
 }
