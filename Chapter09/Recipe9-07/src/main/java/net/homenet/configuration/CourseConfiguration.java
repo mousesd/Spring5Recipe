@@ -1,20 +1,31 @@
 package net.homenet.configuration;
 
-import net.homenet.Course;
 import net.homenet.CourseDao;
 import net.homenet.HibernateCourseDaoImpl;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.dialect.PostgreSQL95Dialect;
+import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.hibernate.cfg.AvailableSettings;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
+import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
-public class CourseConfiguration {
+public class CourseConfiguration implements ResourceLoaderAware {
+    private ResourcePatternResolver resourcePatternResolver;
+
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
+    }
+
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.setProperty(AvailableSettings.URL, "jdbc:postgresql://localhost:5432/course");
@@ -27,10 +38,13 @@ public class CourseConfiguration {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactoryBean() {
+    public LocalSessionFactoryBean sessionFactoryBean() throws IOException {
+        Resource[] mappingResources = resourcePatternResolver.getResources("classpath:net/homenet/Course.hbm.xml");
+
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setHibernateProperties(hibernateProperties());
-        sessionFactoryBean.setMappingLocations(new ClassPathResource("net/homenet/Course.hbm.xml"));
+        //sessionFactoryBean.setMappingLocations(new ClassPathResource("net/homenet/Course.hbm.xml"));
+        sessionFactoryBean.setMappingLocations(mappingResources);
         return sessionFactoryBean;
     }
 
