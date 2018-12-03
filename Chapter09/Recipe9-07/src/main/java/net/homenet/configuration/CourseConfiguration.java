@@ -10,9 +10,14 @@ import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.dialect.PostgreSQL95Dialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jndi.JndiLocatorDelegate;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
+import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -47,11 +52,29 @@ public class CourseConfiguration {
         return sessionFactoryBean;
     }
 
+    //# Use a LocalEntityManagerFactoryBean
+    //@Bean
+    //public LocalEntityManagerFactoryBean entityManagerFactory() {
+    //    LocalEntityManagerFactoryBean lemf = new LocalEntityManagerFactoryBean();
+    //    lemf.setPersistenceUnitName("course");
+    //    return lemf;
+    //}
+
+    private JpaVendorAdapter jpaVendorAdapter() {
+        HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+        adapter.setShowSql(true);
+        adapter.setGenerateDdl(true);
+        adapter.setDatabasePlatform(PostgreSQL95Dialect.class.getName());
+        return adapter;
+    }
+
     @Bean
-    public LocalEntityManagerFactoryBean entityManagerFactory() {
-        LocalEntityManagerFactoryBean lemf = new LocalEntityManagerFactoryBean();
-        lemf.setPersistenceUnitName("course");
-        return lemf;
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+        emf.setDataSource(dataSource);
+        emf.setPackagesToScan("net.homenet");
+        emf.setJpaVendorAdapter(jpaVendorAdapter());
+        return emf;
     }
 
     @Bean
