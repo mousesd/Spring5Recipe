@@ -9,7 +9,7 @@ import org.hibernate.dialect.PostgreSQL95Dialect;
 
 import java.util.List;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({ "WeakerAccess", "JpaQlInspection" })
 public class HibernateCourseDaoImpl implements CourseDao {
     private final SessionFactory sessionFactory;
 
@@ -21,7 +21,8 @@ public class HibernateCourseDaoImpl implements CourseDao {
             .setProperty(AvailableSettings.DIALECT, PostgreSQL95Dialect.class.getName())
             .setProperty(AvailableSettings.SHOW_SQL, String.valueOf(true))
             .setProperty(AvailableSettings.HBM2DDL_AUTO, "update")
-            .addClass(Course.class);
+            //.addClass(Course.class);  //# XML mapping
+            .addAnnotatedClass(Course.class);
         this.sessionFactory = configuration.buildSessionFactory();
     }
 
