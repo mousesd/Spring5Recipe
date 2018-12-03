@@ -31,11 +31,11 @@ public class JpaCourseDaoImpl implements CourseDao {
         return entityManager.find(Course.class, courseId);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true)
     public List<Course> findAll() {
-        Query query = entityManager.createQuery("SELECT ID, TITLE, BEGIN_DATE, END_DATE, FEE FROM COURSE");
+        TypedQuery<Course> query = entityManager.createQuery("SELECT ID, TITLE, BEGIN_DATE, END_DATE, FEE FROM COURSE"
+            , Course.class);
         return query.getResultList();
     }
 }
