@@ -8,6 +8,7 @@ import org.hibernate.dialect.PostgreSQL95Dialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.hibernate.cfg.AvailableSettings;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import java.util.Properties;
@@ -29,7 +30,7 @@ public class CourseConfiguration {
     public LocalSessionFactoryBean sessionFactoryBean() {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setHibernateProperties(hibernateProperties());
-        sessionFactoryBean.setAnnotatedClasses(Course.class);
+        sessionFactoryBean.setMappingLocations(new ClassPathResource("net/homenet/Course.hbm.xml"));
         return sessionFactoryBean;
     }
 
