@@ -3,12 +3,12 @@ package net.homenet;
 import javax.persistence.*;
 import java.util.List;
 
-@SuppressWarnings("JpaQlInspection")
+@SuppressWarnings({ "JpaQlInspection", "Duplicates" })
 public class JpaCourseDaoImpl implements CourseDao {
     private final EntityManagerFactory entityManagerFactory;
 
-    public JpaCourseDaoImpl() {
-        this.entityManagerFactory = Persistence.createEntityManagerFactory("course");
+    public JpaCourseDaoImpl(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override

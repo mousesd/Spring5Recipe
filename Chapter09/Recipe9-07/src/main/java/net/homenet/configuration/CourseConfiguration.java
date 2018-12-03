@@ -4,13 +4,16 @@ import com.zaxxer.hikari.HikariDataSource;
 import net.homenet.Course;
 import net.homenet.CourseDao;
 import net.homenet.HibernateCourseDaoImpl;
+import net.homenet.JpaCourseDaoImpl;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.dialect.PostgreSQL95Dialect;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -45,7 +48,14 @@ public class CourseConfiguration {
     }
 
     @Bean
-    public CourseDao courseDao(SessionFactory sessionFactory) {
-        return new HibernateCourseDaoImpl(sessionFactory);
+    public LocalEntityManagerFactoryBean entityManagerFactory() {
+        LocalEntityManagerFactoryBean lemf = new LocalEntityManagerFactoryBean();
+        lemf.setPersistenceUnitName("course");
+        return lemf;
+    }
+
+    @Bean
+    public CourseDao courseDao(EntityManagerFactory entityManagerFactory) {
+        return new JpaCourseDaoImpl(entityManagerFactory);
     }
 }
