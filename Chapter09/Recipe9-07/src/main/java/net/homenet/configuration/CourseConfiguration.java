@@ -1,36 +1,23 @@
 package net.homenet.configuration;
 
+import com.zaxxer.hikari.HikariDataSource;
+import net.homenet.Course;
 import net.homenet.CourseDao;
 import net.homenet.HibernateCourseDaoImpl;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.dialect.PostgreSQL95Dialect;
-import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
-import java.io.IOException;
+import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-public class CourseConfiguration implements ResourceLoaderAware {
-    private ResourcePatternResolver resourcePatternResolver;
-
-    @Override
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
-    }
-
+public class CourseConfiguration {
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.setProperty(AvailableSettings.URL, "jdbc:postgresql://localhost:5432/course");
-        properties.setProperty(AvailableSettings.USER, "postgres");
-        properties.setProperty(AvailableSettings.PASS, "sqladmin");
         properties.setProperty(AvailableSettings.DIALECT, PostgreSQL95Dialect.class.getName());
         properties.setProperty(AvailableSettings.SHOW_SQL, String.valueOf(true));
         properties.setProperty(AvailableSettings.HBM2DDL_AUTO, "update");
@@ -38,13 +25,22 @@ public class CourseConfiguration implements ResourceLoaderAware {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactoryBean() throws IOException {
-        Resource[] mappingResources = resourcePatternResolver.getResources("classpath:net/homenet/Course.hbm.xml");
+    public DataSource dataSource() {
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/course");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("sqladmin");
+        dataSource.setMinimumIdle(2);
+        dataSource.setMaximumPoolSize(5);
+        return dataSource;
+    }
 
+    @Bean
+    public LocalSessionFactoryBean sessionFactoryBean(DataSource dataSource) {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+        sessionFactoryBean.setDataSource(dataSource);
         sessionFactoryBean.setHibernateProperties(hibernateProperties());
-        //sessionFactoryBean.setMappingLocations(new ClassPathResource("net/homenet/Course.hbm.xml"));
-        sessionFactoryBean.setMappingLocations(mappingResources);
+        sessionFactoryBean.setAnnotatedClasses(Course.class);
         return sessionFactoryBean;
     }
 
