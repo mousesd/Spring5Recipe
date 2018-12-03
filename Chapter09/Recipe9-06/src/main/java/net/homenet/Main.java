@@ -13,13 +13,13 @@ public class Main {
         System.out.println("\r\nCourse before persisting");
         System.out.println(course);
 
-        CourseDao courseDao = new HibernateCourseDaoImpl();
-        courseDao.store(course);
+        CourseDao courseDao = new JpaCourseDaoImpl();
+        Course persisted = courseDao.store(course);
 
         System.out.println("\r\nCourse after persisting");
-        System.out.println(course);
+        System.out.println(persisted);
 
-        Long courseId = course.getId();
+        Long courseId = persisted.getId();
         Course courseFromDb = courseDao.findById(courseId);
 
         System.out.println("\r\nCourse fresh from database");
