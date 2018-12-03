@@ -40,7 +40,7 @@ public class CourseConfiguration {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
         sessionFactoryBean.setHibernateProperties(hibernateProperties());
-        sessionFactoryBean.setAnnotatedClasses(Course.class);
+        sessionFactoryBean.setPackagesToScan("net.homenet");
         return sessionFactoryBean;
     }
 
