@@ -8,7 +8,8 @@ public class TransactionJdbcBookshop extends JdbcDaoSupport implements Bookshop 
     @Override
     @Transactional
     public void purchase(String isbn, String username) {
-        int price = getJdbcTemplate()
+        assert getJdbcTemplate() != null;
+        Integer price = getJdbcTemplate()
             .queryForObject("SELECT price FROM book WHERE isbn = ?", Integer.class, isbn);
 
         getJdbcTemplate().update("UPDATE book_stock SET stock = stock - 1 WHERE isbn = ?", isbn);
