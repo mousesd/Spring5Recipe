@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="Recipe10-03" external.linked.project.path="$MODULE_DIR$/../../Recipe10-03" external.root.project.path="$MODULE_DIR$/../../Recipe10-03" external.system.id="GRADLE" external.system.module.group="Recipe10-03" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration />
+    </facet>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../../Recipe10-03/out/production/classes" />
+    <output-test url="file://$MODULE_DIR$/../../Recipe10-03/out/test/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../Recipe10-03">
+      <sourceFolder url="file://$MODULE_DIR$/../../Recipe10-03/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Recipe10-03/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Recipe10-03/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../Recipe10-03/src/test/resources" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Recipe10-03/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Recipe10-03/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Recipe10-03/out" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context:5.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-jdbc:5.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-aop:5.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-tx:5.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-beans:5.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-expression:5.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-core:5.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.postgresql:postgresql:42.1.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-simple:1.7.25" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-jcl:5.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
+  </component>
+</module>
