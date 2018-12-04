@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 
@@ -29,7 +30,12 @@ public class BookshopConfiguration {
     }
 
     @Bean
-    public Bookshop bookshop(DataSource dataSource, PlatformTransactionManager transactionManager) {
-        return new TransactionJdbcBookshop(dataSource, transactionManager);
+    public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager) {
+        return new TransactionTemplate(transactionManager);
+    }
+
+    @Bean
+    public Bookshop bookshop(DataSource dataSource, TransactionTemplate transactionTemplate) {
+        return new TransactionJdbcBookshop(dataSource, transactionTemplate);
     }
 }
