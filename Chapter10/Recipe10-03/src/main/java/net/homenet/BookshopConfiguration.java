@@ -2,10 +2,13 @@ package net.homenet;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
+@SuppressWarnings("Duplicates")
 @Configuration
 public class BookshopConfiguration {
     @Bean
@@ -19,7 +22,14 @@ public class BookshopConfiguration {
     }
 
     @Bean
-    public Bookshop bookshop(DataSource dataSource) {
-        return new JdbcBookshopImpl(dataSource);
+    public DataSourceTransactionManager transactionManager(DataSource dataSource) {
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+        transactionManager.setDataSource(dataSource);
+        return transactionManager;
+    }
+
+    @Bean
+    public Bookshop bookshop(DataSource dataSource, PlatformTransactionManager transactionManager) {
+        return new TransactionJdbcBookshop(dataSource, transactionManager);
     }
 }

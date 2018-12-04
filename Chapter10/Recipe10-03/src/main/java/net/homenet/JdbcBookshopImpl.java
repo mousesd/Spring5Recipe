@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@SuppressWarnings({ "SqlDialectInspection", "WeakerAccess" })
+@SuppressWarnings({ "SqlDialectInspection", "WeakerAccess", "Duplicates" })
 public class JdbcBookshopImpl implements Bookshop {
     private final DataSource dataSource;
 
