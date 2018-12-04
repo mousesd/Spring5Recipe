@@ -19,6 +19,7 @@ public class JdbcBookshopImpl implements Bookshop {
         Connection conn = null;
         try {
             conn = dataSource.getConnection();
+            conn.setAutoCommit(false);
 
             //# 1.
             PreparedStatement ps1 = conn.prepareStatement("SELECT price FROM book WHERE isbn = ?");
@@ -44,7 +45,16 @@ public class JdbcBookshopImpl implements Bookshop {
             //# org.postgresql.util.PSQLException: 오류: 새 자료가 "account" 릴레이션의 "positive_balance" 체크 제약 조건을 위반했습니다
             ps3.executeUpdate();
             ps3.close();
+
+            conn.commit();
         } catch (SQLException e) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
             e.printStackTrace();
         } finally {
             if (conn != null) {
