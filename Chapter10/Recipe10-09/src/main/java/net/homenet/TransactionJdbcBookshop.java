@@ -1,4 +1,4 @@
-package net.homenet.homenet;
+package net.homenet;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Isolation;

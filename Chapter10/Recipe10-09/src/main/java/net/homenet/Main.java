@@ -1,4 +1,4 @@
-package net.homenet.homenet;
+package net.homenet;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
