@@ -1,12 +1,13 @@
 package net.homenet;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings({ "SqlDialectInspection", "WeakerAccess", "Duplicates" })
 public class TransactionJdbcBookshop extends JdbcDaoSupport implements Bookshop {
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void purchase(String isbn, String username) {
         assert getJdbcTemplate() != null;
         Integer price = getJdbcTemplate()
