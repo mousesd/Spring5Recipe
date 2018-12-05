@@ -4,6 +4,8 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 @SuppressWarnings({ "SqlDialectInspection", "WeakerAccess", "Duplicates" })
 public class TransactionJdbcBookshop extends JdbcDaoSupport implements Bookshop {
     @Override
@@ -19,7 +21,11 @@ public class TransactionJdbcBookshop extends JdbcDaoSupport implements Bookshop 
     }
 
     @Override
-    @Transactional
+    @Transactional(
+        isolation = Isolation.READ_COMMITTED,
+        rollbackFor = IOException.class,
+        noRollbackFor = RuntimeException.class
+    )
     public void increaseStock(String isbn, int stock) {
         String threadName = Thread.currentThread().getName();
         System.out.println(threadName + " - Prepare to increase book stock");
@@ -37,7 +43,8 @@ public class TransactionJdbcBookshop extends JdbcDaoSupport implements Bookshop 
     @Override
     //@Transactional(isolation = Isolation.READ_UNCOMMITTED)
     //@Transactional(isolation = Isolation.READ_COMMITTED)
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    //@Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Transactional
     public int checkStock(String isbn) {
         String threadName = Thread.currentThread().getName();
         System.out.println(threadName + " - Prepare to check book stock");
