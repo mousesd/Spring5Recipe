@@ -42,4 +42,9 @@ public class BookshopConfiguration {
         bookshop.setDataSource(dataSource);
         return bookshop;
     }
+
+    @Bean
+    public Cashier cashier(Bookshop bookshop) {
+        return new BookshopCashierImpl(bookshop);
+    }
 }
