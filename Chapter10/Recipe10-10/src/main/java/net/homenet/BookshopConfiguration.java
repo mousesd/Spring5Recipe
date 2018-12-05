@@ -1,7 +1,9 @@
 package net.homenet;
 
+import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableLoadTimeWeaving;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -12,7 +14,8 @@ import javax.sql.DataSource;
 
 @SuppressWarnings("Duplicates")
 @Configuration
-@EnableTransactionManagement
+@EnableTransactionManagement(mode = AdviceMode.ASPECTJ)
+@EnableLoadTimeWeaving
 public class BookshopConfiguration {
     @Bean
     public DataSource dataSource() {
