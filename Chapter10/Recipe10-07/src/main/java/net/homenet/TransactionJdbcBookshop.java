@@ -36,7 +36,8 @@ public class TransactionJdbcBookshop extends JdbcDaoSupport implements Bookshop 
 
     @Override
     //@Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    //@Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public int checkStock(String isbn) {
         String threadName = Thread.currentThread().getName();
         System.out.println(threadName + " - Prepare to check book stock");
@@ -45,8 +46,12 @@ public class TransactionJdbcBookshop extends JdbcDaoSupport implements Bookshop 
         Integer stock = getJdbcTemplate()
             .queryForObject("SELECT stock FROM book_stock WHERE isbn = ?", Integer.class, isbn);
 
-        System.out.println(threadName + " - Book stock is " + stock);
+        System.out.println(threadName + " - Book stock(before sleep) is " + stock);
         sleep(threadName);
+
+        stock = getJdbcTemplate()
+            .queryForObject("SELECT stock FROM book_stock WHERE isbn = ?", Integer.class, isbn);
+        System.out.println(threadName + " - Book stock(after sleep) is " + stock);
 
         assert stock != null;
         return stock;
