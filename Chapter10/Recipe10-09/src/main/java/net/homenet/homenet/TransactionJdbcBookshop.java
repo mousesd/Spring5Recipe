@@ -44,7 +44,10 @@ public class TransactionJdbcBookshop extends JdbcDaoSupport implements Bookshop 
     //@Transactional(isolation = Isolation.READ_UNCOMMITTED)
     //@Transactional(isolation = Isolation.READ_COMMITTED)
     //@Transactional(isolation = Isolation.REPEATABLE_READ)
-    @Transactional
+    @Transactional(
+        timeout = 30,
+        readOnly = true
+    )
     public int checkStock(String isbn) {
         String threadName = Thread.currentThread().getName();
         System.out.println(threadName + " - Prepare to check book stock");
