@@ -1,12 +1,6 @@
 package net.homenet.configuration;
 
-import org.springframework.batch.core.configuration.JobRegistry;
-import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
-import org.springframework.batch.core.configuration.support.MapJobRegistry;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.launch.support.SimpleJobLauncher;
-import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,17 +8,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("net.homenet.batch")
+@EnableBatchProcessing
 @PropertySource("classpath:batch.properties")
 public class BatchConfiguration {
     private final Environment env;
@@ -60,35 +53,36 @@ public class BatchConfiguration {
         return initializer;
     }
 
-    @Bean
-    public DataSourceTransactionManager transactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
-
-    @Bean
-    public JobRepositoryFactoryBean jobRepository(DataSource dataSource, PlatformTransactionManager transactionManager) {
-        JobRepositoryFactoryBean jobRepository = new JobRepositoryFactoryBean();
-        jobRepository.setDataSource(dataSource);
-        jobRepository.setTransactionManager(transactionManager);
-        return jobRepository;
-    }
-
-    @Bean
-    public JobLauncher jobLauncher(JobRepository jobRepository) {
-        SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
-        jobLauncher.setJobRepository(jobRepository);
-        return jobLauncher;
-    }
-
-    @Bean
-    public JobRegistry jobRegistry() {
-        return new MapJobRegistry();
-    }
-
-    @Bean
-    public JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor (JobRegistry jobRegistry) {
-        JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor = new JobRegistryBeanPostProcessor();
-        jobRegistryBeanPostProcessor.setJobRegistry(jobRegistry);
-        return jobRegistryBeanPostProcessor;
-    }
+    //# @EnableBatchProcessing 사용하면 아래 코드가 자동 설정
+    //@Bean
+    //public DataSourceTransactionManager transactionManager(DataSource dataSource) {
+    //    return new DataSourceTransactionManager(dataSource);
+    //}
+    //
+    //@Bean
+    //public JobRepositoryFactoryBean jobRepository(DataSource dataSource, PlatformTransactionManager transactionManager) {
+    //    JobRepositoryFactoryBean jobRepository = new JobRepositoryFactoryBean();
+    //    jobRepository.setDataSource(dataSource);
+    //    jobRepository.setTransactionManager(transactionManager);
+    //    return jobRepository;
+    //}
+    //
+    //@Bean
+    //public JobLauncher jobLauncher(JobRepository jobRepository) {
+    //    SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
+    //    jobLauncher.setJobRepository(jobRepository);
+    //    return jobLauncher;
+    //}
+    //
+    //@Bean
+    //public JobRegistry jobRegistry() {
+    //    return new MapJobRegistry();
+    //}
+    //
+    //@Bean
+    //public JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor (JobRegistry jobRegistry) {
+    //    JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor = new JobRegistryBeanPostProcessor();
+    //    jobRegistryBeanPostProcessor.setJobRegistry(jobRegistry);
+    //    return jobRegistryBeanPostProcessor;
+    //}
 }
