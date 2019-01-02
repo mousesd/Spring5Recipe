@@ -3,6 +3,8 @@
     <words>
       <w>homenet</w>
       <w>populator</w>
+      <w>postgresql</w>
+      <w>sqladmin</w>
     </words>
   </dictionary>
 </component>
