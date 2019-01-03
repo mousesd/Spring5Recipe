@@ -9,8 +9,10 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
+import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.LineMapper;
+import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
@@ -20,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.util.ClassUtils;
 
 import javax.sql.DataSource;
 
@@ -28,47 +31,74 @@ public class UseJob {
     @Value("classpath:batchInputs/User.csv")
     private Resource input;
 
+    //# 1.
+    //@Bean
+    //public DelimitedLineTokenizer lineTokenizer() {
+    //    DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+    //    tokenizer.setDelimiter(",");
+    //    tokenizer.setNames("firstName", "lastName", "company", "address", "city", "state", "zip", "county"
+    //        , "url", "phoneNumber", "fax");
+    //    return tokenizer;
+    //}
+    //
+    //@Bean
+    //public BeanWrapperFieldSetMapper<User> fieldSetMapper() {
+    //    BeanWrapperFieldSetMapper<User> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+    //    fieldSetMapper.setTargetType(User.class);
+    //    return fieldSetMapper;
+    //}
+    //
+    //@Bean
+    //public DefaultLineMapper<User> lineMapper(LineTokenizer lineTokenizer, FieldSetMapper<User> fieldSetMapper) {
+    //    DefaultLineMapper<User> lineMapper = new DefaultLineMapper<>();
+    //    lineMapper.setLineTokenizer(lineTokenizer);
+    //    lineMapper.setFieldSetMapper(fieldSetMapper);
+    //    return lineMapper;
+    //}
+    //
+    //@Bean
+    //public FlatFileItemReader<User> itemReader(LineMapper<User> lineMapper) {
+    //    FlatFileItemReader<User> itemReader = new FlatFileItemReader<>();
+    //    itemReader.setLineMapper(lineMapper);
+    //    itemReader.setResource(input);
+    //    return itemReader;
+    //}
+
+    //# 2.FlatFileItemReaderBuilder 이용
     @Bean
-    public DelimitedLineTokenizer lineTokenizer() {
-        DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-        tokenizer.setDelimiter(",");
-        tokenizer.setNames("firstName", "lastName", "company", "address", "city", "state", "zip", "county"
-            , "url", "phoneNumber", "fax");
-        return tokenizer;
+    public FlatFileItemReader<User> itemReader() {
+        return new FlatFileItemReaderBuilder<User>()
+            .name(ClassUtils.getShortName(FlatFileItemReader.class))
+            .resource(input)
+            .targetType(User.class)
+            .delimited()
+            .names(new String[]{ "firstName", "lastName", "company", "address", "city", "state", "zip", "county"
+                , "url", "phoneNumber", "fax" })
+            .build();
     }
 
-    @Bean
-    public BeanWrapperFieldSetMapper<User> fieldSetMapper() {
-        BeanWrapperFieldSetMapper<User> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
-        fieldSetMapper.setTargetType(User.class);
-        return fieldSetMapper;
-    }
+    //# 1.
+    //@Bean
+    //public JdbcBatchItemWriter<User> itemWriter(DataSource dataSource) {
+    //    JdbcBatchItemWriter<User> itemWriter = new JdbcBatchItemWriter<>();
+    //    itemWriter.setDataSource(dataSource);
+    //    itemWriter.setSql("INSERT INTO USER_REGISTRATION (FIRST_NAME, LAST_NAME, COMPANY, ADDRESS, CITY, STATE, ZIP" +
+    //        ", COUNTY, URL, PHONE_NUMBER, FAX) VALUES (:firstName, :lastName, :company, :address, :city, :state, :zip" +
+    //        ", :county, :url, :phoneNumber, :fax)");
+    //    itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
+    //    return itemWriter;
+    //}
 
-    @Bean
-    public DefaultLineMapper<User> lineMapper(LineTokenizer lineTokenizer, FieldSetMapper<User> fieldSetMapper) {
-        DefaultLineMapper<User> lineMapper = new DefaultLineMapper<>();
-        lineMapper.setLineTokenizer(lineTokenizer);
-        lineMapper.setFieldSetMapper(fieldSetMapper);
-        return lineMapper;
-    }
-
-    @Bean
-    public FlatFileItemReader<User> itemReader(LineMapper<User> lineMapper) {
-        FlatFileItemReader<User> itemReader = new FlatFileItemReader<>();
-        itemReader.setLineMapper(lineMapper);
-        itemReader.setResource(input);
-        return itemReader;
-    }
-
+    //# 2.JdbcBatchItemWriterBuilder 이용
     @Bean
     public JdbcBatchItemWriter<User> itemWriter(DataSource dataSource) {
-        JdbcBatchItemWriter<User> itemWriter = new JdbcBatchItemWriter<>();
-        itemWriter.setDataSource(dataSource);
-        itemWriter.setSql("INSERT INTO USER_REGISTRATION (FIRST_NAME, LAST_NAME, COMPANY, ADDRESS, CITY, STATE, ZIP" +
-            ", COUNTY, URL, PHONE_NUMBER, FAX) VALUES (:firstName, :lastName, :company, :address, :city, :state, :zip" +
-            ", :county, :url, :phoneNumber, :fax)");
-        itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
-        return itemWriter;
+        return new JdbcBatchItemWriterBuilder<User>()
+            .dataSource(dataSource)
+            .sql("INSERT INTO USER_REGISTRATION (FIRST_NAME, LAST_NAME, COMPANY, ADDRESS, CITY, STATE, ZIP" +
+                ", COUNTY, URL, PHONE_NUMBER, FAX) VALUES (:firstName, :lastName, :company, :address, :city, :state, :zip" +
+                ", :county, :url, :phoneNumber, :fax)")
+            .beanMapped()
+            .build();
     }
 
     @Bean
