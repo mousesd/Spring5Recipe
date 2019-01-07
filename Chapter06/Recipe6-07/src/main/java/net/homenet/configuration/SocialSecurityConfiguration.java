@@ -20,18 +20,18 @@ public class SocialSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .anyRequest()
-            .authenticated()
+                .anyRequest()
+                .authenticated()
             .and()
             .formLogin()
-            .loginPage("/signin")
-            .failureUrl("/signin?param.error=bad_credentials")
-            .loginProcessingUrl("/signin/authenticate")
-            .permitAll()
-            .defaultSuccessUrl("/connect")
+                .loginPage("/signin")
+                .failureUrl("/signin?param.error=bad_credentials")
+                .loginProcessingUrl("/signin/authenticate")
+                .permitAll()
+                .defaultSuccessUrl("/connect")
             .and()
             .logout()
-            .logoutUrl("/signout")
+                .logoutUrl("/signout")
             .permitAll();
 
         http.apply(new SpringSocialConfigurer());
