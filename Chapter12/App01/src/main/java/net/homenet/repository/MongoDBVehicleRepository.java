@@ -7,6 +7,7 @@ import com.sun.istack.internal.NotNull;
 import net.homenet.domain.Vehicle;
 import org.bson.Document;
 
+import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -68,5 +69,10 @@ public class MongoDBVehicleRepository implements VehicleRepository {
             , document.getString("color")
             , document.getInteger("wheel")
             , document.getInteger("seat"));
+    }
+
+    @PreDestroy
+    public void cleanup() {
+        mongo.dropDatabase(databaseName);
     }
 }

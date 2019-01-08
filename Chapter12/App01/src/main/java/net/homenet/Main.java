@@ -1,18 +1,16 @@
 package net.homenet;
 
-import com.mongodb.MongoClient;
+import net.homenet.configuration.MongoDbConfiguration;
 import net.homenet.domain.Vehicle;
-import net.homenet.repository.MongoDBVehicleRepository;
 import net.homenet.repository.VehicleRepository;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
 
 public class Main {
-    private static final String DB_NAME = "vehicleDb";
-
     public static void main(String[] args) {
-        MongoClient mongo = new MongoClient();
-        VehicleRepository repository = new MongoDBVehicleRepository(mongo, DB_NAME, "vehicles");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MongoDbConfiguration.class);
+        VehicleRepository repository = context.getBean(VehicleRepository.class);
 
         System.out.println("Number of vehicles: " + repository.count());
 
@@ -29,7 +27,6 @@ public class Main {
         vehicles.forEach(System.out::println);
         System.out.println("Number of vehicle: " + repository.count());
 
-        mongo.dropDatabase(DB_NAME);
-        mongo.close();
+        context.close();
     }
 }
