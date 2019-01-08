@@ -29,7 +29,6 @@ public class MongoDbConfiguration {
 
     @Bean
     public VehicleRepository vehicleRepository(MongoTemplate mongoTemplate) {
-        return new MongoDBVehicleRepository(mongoTemplate, "vehicles");
+        return new MongoDBVehicleRepository(mongoTemplate);
     }
-
 }
