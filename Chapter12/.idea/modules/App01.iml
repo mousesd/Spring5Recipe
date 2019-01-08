@@ -5,6 +5,7 @@
       <configuration>
         <fileset id="fileset" name="MonboDbConfiguration" removed="false">
           <file>file://$MODULE_DIR$/../../App01/src/main/java/net/homenet/configuration/MonboDbConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../App01/src/main/java/net/homenet/configuration/MongoDbConfiguration.java</file>
         </fileset>
       </configuration>
     </facet>
