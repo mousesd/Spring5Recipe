@@ -2,6 +2,7 @@ package net.homenet.domain;
 
 import java.io.Serializable;
 
+@SuppressWarnings("unused")
 public class Vehicle implements Serializable {
     private String vehicleNo;
     private String color;

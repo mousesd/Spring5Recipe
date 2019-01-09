@@ -1,7 +1,12 @@
 package net.homenet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.homenet.configuration.RedisConfiguration;
 import net.homenet.domain.Vehicle;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.SerializationUtils;
 import redis.clients.jedis.Jedis;
 
@@ -35,14 +40,24 @@ public class Main {
         //System.out.println(SerializationUtils.deserialize(vehicleByteArray));
 
         //# 2.Store object with Redis(JSON)
+        //String vehicleNo = "TEM0001";
+        //Vehicle vehicle = new Vehicle(vehicleNo, "RED", 4, 4);
+        //
+        //Jedis jedis = new Jedis("localhost");
+        //ObjectMapper mapper = new ObjectMapper();
+        //jedis.set(vehicleNo, mapper.writeValueAsString(vehicle));
+        //
+        //String vehicleJsonString = jedis.get(vehicleNo);
+        //System.out.println(mapper.readValue(vehicleJsonString, Vehicle.class));
+
+        //# 3.Configure and use the RedisTemplate
+        ApplicationContext context = new AnnotationConfigApplicationContext(RedisConfiguration.class);
+        RedisTemplate<String, Vehicle> template = context.getBean(RedisTemplate.class);
+
         String vehicleNo = "TEM0001";
         Vehicle vehicle = new Vehicle(vehicleNo, "RED", 4, 4);
 
-        Jedis jedis = new Jedis("localhost");
-        ObjectMapper mapper = new ObjectMapper();
-        jedis.set(vehicleNo, mapper.writeValueAsString(vehicle));
-
-        String vehicleJsonString = jedis.get(vehicleNo);
-        System.out.println(mapper.readValue(vehicleJsonString, Vehicle.class));
+        template.opsForValue().set(vehicleNo, vehicle);
+        System.out.println(template.opsForValue().get(vehicleNo));
     }
 }
