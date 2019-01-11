@@ -1,9 +1,10 @@
-package net.homenet.repository;
+package net.homenet.service;
 
 import net.homenet.domain.Character;
 import net.homenet.domain.Planet;
 
-public interface StarwarsRepository {
+public interface StarwarsService {
     Planet save(Planet planet);
     Character save(Character character);
+    void printAll();
 }

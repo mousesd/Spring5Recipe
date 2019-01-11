@@ -1,14 +1,28 @@
 package net.homenet.domain;
 
+import org.neo4j.ogm.annotation.GeneratedValue;
+import org.neo4j.ogm.annotation.Id;
+import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("unused")
+@NodeEntity
 public class Character {
+    @Id
+    @GeneratedValue
     private Long id = -1L;
     private String name;
+
+    @Relationship(type = "LOCATION")
     private Planet location;
+
+    @Relationship(type = "MASTER_OF")
     private Character apprentice;
+
+    @Relationship(type = "FRIENDS_WITH")
     private final List<Character> friends = new ArrayList<>();
 
     public Character() { }
@@ -61,5 +75,16 @@ public class Character {
 
     public void addFriend(Character friend) {
         friends.add(friend);
+    }
+
+    @Override
+    public String toString() {
+        return "Character{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", location=" + location +
+            ", apprentice=" + apprentice +
+            ", friends=" + friends +
+            '}';
     }
 }
