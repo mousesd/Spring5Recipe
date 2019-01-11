@@ -1,51 +1,37 @@
 package net.homenet;
 
+import net.homenet.domain.Character;
+import net.homenet.domain.Planet;
+import net.homenet.repository.Neo4jStarwarsRepository;
+import net.homenet.repository.StarwarsRepository;
 import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 public class Main {
-    public enum RelationshipTypes implements RelationshipType {
-        FRIENDS_WITH,
-        MASTER_OF,
-        SIBLING,
-        LOCATION
-    }
-
     public static void main(String[] args) {
         final String DB_PATH = System.getProperty("user.home") + "\\friends";
         final GraphDatabaseService db = new GraphDatabaseFactory().newEmbeddedDatabase(Paths.get(DB_PATH).toFile());
-        final Label character = Label.label("character");
-        final Label planet = Label.label("planet");
 
+        StarwarsRepository repository = new Neo4jStarwarsRepository(db);
         try (Transaction tx = db.beginTx()) {
             //# Planets
-            Node dagobah = db.createNode(planet);
-            dagobah.setProperty("name", "Dagobah");
-            Node tatooine = db.createNode(planet);
-            tatooine.setProperty("name", "Tatooine");
-            Node alderaan = db.createNode(planet);
-            alderaan.setProperty("name", "Alderaan");
+            Planet dagobah = new Planet("Dagobah");
+            Planet tatooine = new Planet("Tatooine");
+            Planet alderaan = new Planet("Alderaan");
+            Stream.of(dagobah, tatooine, alderaan).forEach(repository::save);
 
             //# Characters
-            Node yoda = db.createNode(character);
-            yoda.setProperty("name", "Yoda");
-            Node luke = db.createNode(character);
-            luke.setProperty("name", "Luke Skywalker");
-            Node leia = db.createNode(character);
-            leia.setProperty("name", "Leia Organa");
-            Node han = db.createNode(character);
-            han.setProperty("name", "Han Solo");
-
-            //# Relations
-            yoda.createRelationshipTo(luke, RelationshipTypes.MASTER_OF);
-            yoda.createRelationshipTo(dagobah, RelationshipTypes.LOCATION);
-            luke.createRelationshipTo(leia, RelationshipTypes.SIBLING);
-            luke.createRelationshipTo(tatooine, RelationshipTypes.LOCATION);
-            luke.createRelationshipTo(han, RelationshipTypes.FRIENDS_WITH);
-            leia.createRelationshipTo(han, RelationshipTypes.FRIENDS_WITH);
-            leia.createRelationshipTo(alderaan, RelationshipTypes.LOCATION);
+            Character han = new Character("Han Solo");
+            Character leia = new Character("Leia Organa", alderaan, han);
+            Character luke = new Character("Luke Skywalker");
+            luke.setLocation(tatooine);
+            leia.addFriend(han);
+            leia.addFriend(leia);
+            Character yoda = new Character("Yoda", dagobah, luke);
+            Stream.of(han, leia, luke, yoda).forEach(repository::save);
 
             tx.success();
         }
