@@ -1,31 +1,29 @@
 package net.homenet.configuration;
 
-import com.couchbase.client.java.Bucket;
-import com.couchbase.client.java.Cluster;
-import com.couchbase.client.java.CouchbaseCluster;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.couchbase.core.CouchbaseTemplate;
-import org.springframework.data.couchbase.repository.config.EnableCouchbaseRepositories;
+import org.springframework.data.couchbase.config.AbstractReactiveCouchbaseConfiguration;
+import org.springframework.data.couchbase.repository.config.EnableReactiveCouchbaseRepositories;
+
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
-@EnableCouchbaseRepositories(basePackages = "net.homenet.repository")
-public class CouchbaseConfiguration {
-    @Bean(destroyMethod = "disconnect")
-    public Cluster cluster() {
-        Cluster cluster = CouchbaseCluster.create();
-        cluster.authenticate("Administrator", "sqladmin");
-        return cluster;
+@EnableReactiveCouchbaseRepositories(basePackages = "net.homenet.repository")
+@ComponentScan("net.homenet")
+public class CouchbaseConfiguration extends AbstractReactiveCouchbaseConfiguration {
+    @Override
+    protected List<String> getBootstrapHosts() {
+        return Collections.singletonList("localhost");
     }
 
-    @Bean
-    public Bucket bucket(Cluster cluster) {
-        return cluster.openBucket("Vehicle");
+    @Override
+    protected String getBucketName() {
+        return "Vehicle";
     }
 
-    @Bean
-    public CouchbaseTemplate couchbaseTemplate(Cluster cluster, Bucket bucket) {
-        return new CouchbaseTemplate(cluster.clusterManager().info(), bucket);
+    @Override
+    protected String getBucketPassword() {
+        return null;
     }
 }

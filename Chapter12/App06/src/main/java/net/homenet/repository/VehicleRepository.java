@@ -1,6 +1,8 @@
 package net.homenet.repository;
 
 import net.homenet.domain.Vehicle;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface VehicleRepository extends CrudRepository<Vehicle, String> { }
+@Repository
+public interface VehicleRepository extends ReactiveCrudRepository<Vehicle, String> { }
