@@ -3,6 +3,7 @@ package net.homenet;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
 import com.couchbase.client.java.CouchbaseCluster;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.homenet.domain.Vehicle;
 import net.homenet.repository.CouchbaseVehicleRepositoryImpl;
 import net.homenet.repository.VehicleRepository;
@@ -13,7 +14,7 @@ public class Main {
         cluster.authenticate("Administrator", "sqladmin");
         Bucket bucket = cluster.openBucket("Vehicle");
 
-        VehicleRepository repository = new CouchbaseVehicleRepositoryImpl(bucket);
+        VehicleRepository repository = new CouchbaseVehicleRepositoryImpl(bucket, new ObjectMapper());
         repository.save(new Vehicle("TEM0001", "GREEN", 3, 1));
         repository.save(new Vehicle("TEM0004", "RED", 4, 1));
 
