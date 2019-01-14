@@ -3,11 +3,11 @@ package net.homenet.configuration;
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
 import com.couchbase.client.java.CouchbaseCluster;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.homenet.repository.CouchbaseVehicleRepositoryImpl;
 import net.homenet.repository.VehicleRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.couchbase.core.CouchbaseTemplate;
 
 @Configuration
 public class CouchbaseConfiguration {
@@ -24,12 +24,12 @@ public class CouchbaseConfiguration {
     }
 
     @Bean
-    public ObjectMapper mapper() {
-        return new ObjectMapper();
+    public CouchbaseTemplate couchbaseTemplate(Cluster cluster, Bucket bucket) {
+        return new CouchbaseTemplate(cluster.clusterManager().info(), bucket);
     }
 
     @Bean
-    public VehicleRepository vehicleRepository(Bucket bucket, ObjectMapper mapper) {
-        return new CouchbaseVehicleRepositoryImpl(bucket, mapper);
+    public VehicleRepository vehicleRepository(CouchbaseTemplate couchbaseTemplate) {
+        return new CouchbaseVehicleRepositoryImpl(couchbaseTemplate);
     }
 }
