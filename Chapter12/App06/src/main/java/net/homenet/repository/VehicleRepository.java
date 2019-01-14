@@ -1,9 +1,6 @@
 package net.homenet.repository;
 
 import net.homenet.domain.Vehicle;
+import org.springframework.data.repository.CrudRepository;
 
-public interface VehicleRepository {
-    void save(Vehicle vehicle);
-    void delete(Vehicle vehicle);
-    Vehicle findByVehicleNo(String vehicleNo);
-}
+public interface VehicleRepository extends CrudRepository<Vehicle, String> { }

@@ -14,10 +14,10 @@ public class Main {
         repository.save(new Vehicle("TEM0001", "GREEN", 3, 1));
         repository.save(new Vehicle("TEM0004", "RED", 4, 1));
 
-        System.out.println(repository.findByVehicleNo("TEM0001"));
-        System.out.println(repository.findByVehicleNo("TEM0004"));
+        repository.findById("TEM0001").ifPresent(System.out::println);
+        repository.findById("TEM0004").ifPresent(System.out::println);
 
-        repository.delete(repository.findByVehicleNo("TEM0001"));
-        repository.delete(repository.findByVehicleNo("TEM0004"));
+        repository.deleteById("TEM0001");
+        repository.deleteById("TEM0004");
     }
 }
