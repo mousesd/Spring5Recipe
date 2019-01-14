@@ -1,30 +1,23 @@
 package net.homenet;
 
-import com.couchbase.client.java.Bucket;
-import com.couchbase.client.java.Cluster;
-import com.couchbase.client.java.CouchbaseCluster;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import net.homenet.configuration.CouchbaseConfiguration;
 import net.homenet.domain.Vehicle;
-import net.homenet.repository.CouchbaseVehicleRepositoryImpl;
 import net.homenet.repository.VehicleRepository;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
     public static void main(String[] args) {
-        Cluster cluster = CouchbaseCluster.create();
-        cluster.authenticate("Administrator", "sqladmin");
-        Bucket bucket = cluster.openBucket("Vehicle");
+        ApplicationContext context = new AnnotationConfigApplicationContext(CouchbaseConfiguration.class);
+        VehicleRepository repository = context.getBean(VehicleRepository.class);
 
-        VehicleRepository repository = new CouchbaseVehicleRepositoryImpl(bucket, new ObjectMapper());
         repository.save(new Vehicle("TEM0001", "GREEN", 3, 1));
         repository.save(new Vehicle("TEM0004", "RED", 4, 1));
 
         System.out.println(repository.findByVehicleNo("TEM0001"));
         System.out.println(repository.findByVehicleNo("TEM0004"));
 
-        bucket.remove("TEM0001");
-        bucket.remove("TEM0004");
-
-        bucket.close();
-        cluster.disconnect();
+        repository.delete(repository.findByVehicleNo("TEM0001"));
+        repository.delete(repository.findByVehicleNo("TEM0004"));
     }
 }
