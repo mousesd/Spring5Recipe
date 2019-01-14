@@ -10,9 +10,6 @@ import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-        //final String DB_PATH = System.getProperty("user.home") + "\\friends";
-        //final GraphDatabaseService db = new GraphDatabaseFactory().newEmbeddedDatabase(Paths.get(DB_PATH).toFile());
-
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(StarwarsConfiguration.class);
         StarwarsService service = context.getBean(StarwarsService.class);
 

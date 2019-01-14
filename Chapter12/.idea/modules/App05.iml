@@ -36,8 +36,8 @@
     <orderEntry type="library" name="Gradle: org.neo4j:neo4j:3.3.2" level="project" />
     <orderEntry type="library" name="Gradle: org.neo4j:neo4j-ogm-embedded-driver:3.1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.neo4j:neo4j-ogm-core:3.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.neo4j:neo4j-ogm-bolt-driver:3.0.3" level="project" />
-    <orderEntry type="library" name="Gradle: org.neo4j:neo4j-ogm-api:3.1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.neo4j:neo4j-ogm-bolt-driver:3.0.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.neo4j:neo4j-ogm-api:3.1.0" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-simple:1.7.25" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-jcl:5.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:jcl-over-slf4j:1.7.25" level="project" />
@@ -74,9 +74,9 @@
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.5" level="project" />
     <orderEntry type="library" name="Gradle: io.github.lukehutch:fast-classpath-scanner:2.7.4" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.7.1" level="project" />
-    <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.10" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: commons-codec:commons-codec:1.10" level="project" />
     <orderEntry type="library" name="Gradle: commons-io:commons-io:2.4" level="project" />
-    <orderEntry type="library" name="Gradle: org.neo4j.driver:neo4j-java-driver:1.4.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: org.neo4j.driver:neo4j-java-driver:1.4.5" level="project" />
     <orderEntry type="library" name="Gradle: org.neo4j:neo4j-graphdb-api:3.3.2" level="project" />
     <orderEntry type="library" name="Gradle: org.neo4j:neo4j-csv:3.3.2" level="project" />
     <orderEntry type="library" name="Gradle: org.neo4j:neo4j-collections:3.3.2" level="project" />
@@ -108,5 +108,11 @@
     <orderEntry type="library" name="Gradle: org.parboiled:parboiled-core:1.1.7" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-compress:1.12" level="project" />
     <orderEntry type="library" name="Gradle: org.bouncycastle:bcprov-jdk15on:1.53" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.neo4j:neo4j-ogm-bolt-driver:3.1.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.neo4j:neo4j-ogm-api:3.1.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.neo4j.driver:neo4j-java-driver:1.5.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.neo4j:neo4j-ogm-bolt-driver:3.1.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.neo4j:neo4j-ogm-api:3.1.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.neo4j.driver:neo4j-java-driver:1.5.0" level="project" />
   </component>
 </module>
