@@ -25,6 +25,7 @@ dependencies {
     compile "org.springframework:spring-jdbc:${springVersion}"
     compile "org.springframework.data:spring-data-couchbase:3.0.3.RELEASE"
     compile "com.couchbase.client:java-client:2.7.2"
+    compile "com.couchbase.client:encryption:1.0.0"
     compile "com.fasterxml.jackson.core:jackson-databind:2.9.3"
     compile "org.slf4j:slf4j-simple:1.7.25"
 }
