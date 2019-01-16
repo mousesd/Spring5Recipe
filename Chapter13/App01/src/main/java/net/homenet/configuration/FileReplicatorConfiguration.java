@@ -7,9 +7,12 @@ import net.homenet.FileReplicatorImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jmx.export.MBeanExporter;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class FileReplicatorConfiguration {
@@ -31,6 +34,16 @@ public class FileReplicatorConfiguration {
         replicator.setDestDir(destDir);
         replicator.setFileCopier(fileCopier);
         return replicator;
+    }
+
+    @Bean
+    public MBeanExporter mBeanExporter(FileReplicator fileReplicator) {
+        Map<String, Object> beanToExport = new HashMap<>();
+        beanToExport.put("bean:name=fileReplicator", fileReplicator);
+
+        MBeanExporter exporter = new MBeanExporter();
+        exporter.setBeans(beanToExport);
+        return exporter;
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
