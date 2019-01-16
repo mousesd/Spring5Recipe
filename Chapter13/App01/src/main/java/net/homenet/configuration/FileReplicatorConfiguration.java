@@ -7,18 +7,14 @@ import net.homenet.FileReplicatorImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jmx.export.MBeanExporter;
-import org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource;
-import org.springframework.jmx.export.assembler.MBeanInfoAssembler;
-import org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler;
+import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.jmx.support.MBeanServerFactoryBean;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
+@EnableMBeanExport
 public class FileReplicatorConfiguration {
     @Value("#{systemProperties['user.home']}/docs")
     private String srcDir;
@@ -64,27 +60,31 @@ public class FileReplicatorConfiguration {
     //}
 
     //# Use a MetadataBeanInfoAssembler class
-    @Bean
-    public MBeanInfoAssembler mBeanInfoAssembler() {
-        MetadataMBeanInfoAssembler assembler = new MetadataMBeanInfoAssembler();
-        assembler.setAttributeSource(new AnnotationJmxAttributeSource());
-        return assembler;
-    }
+    //@Bean
+    //public MBeanInfoAssembler mBeanInfoAssembler() {
+    //    MetadataMBeanInfoAssembler assembler = new MetadataMBeanInfoAssembler();
+    //    assembler.setAttributeSource(new AnnotationJmxAttributeSource());
+    //    return assembler;
+    //}
 
-    @Bean
-    public MBeanExporter mBeanExporter(MBeanServerFactoryBean mBeanServer
-        , FileReplicator fileReplicator
-        , MBeanInfoAssembler assembler) {
-
-        Map<String, Object> beanToExport = new HashMap<>();
-        beanToExport.put("bean:name=fileReplicator", fileReplicator);
-
-        MBeanExporter exporter = new MBeanExporter();
-        exporter.setBeans(beanToExport);
-        exporter.setServer(mBeanServer.getObject());
-        exporter.setAssembler(assembler);
-        return exporter;
-    }
+    //# @EnableMBeanExport 를 이용히 아래 Bean 이 필요 없어짐
+    //@Bean
+    //public MBeanExporter mBeanExporter(MBeanServerFactoryBean mBeanServer) {
+    //    //# Use a MBeanExporter class
+    //    //Map<String, Object> beanToExport = new HashMap<>();
+    //    //beanToExport.put("bean:name=fileReplicator", fileReplicator);
+    //
+    //    //MBeanExporter exporter = new MBeanExporter();
+    //    //exporter.setBeans(beanToExport);
+    //    //exporter.setServer(mBeanServer.getObject());
+    //    //exporter.setAssembler(assembler);
+    //    //return exporter;
+    //
+    //    //# Use a AnnotationMBeanExporter class
+    //    AnnotationMBeanExporter exporter = new AnnotationMBeanExporter();
+    //    exporter.setServer(mBeanServer.getObject());
+    //    return exporter;
+    //}
 
     //# Register MBeans for remote access with RMI
     //@Bean
