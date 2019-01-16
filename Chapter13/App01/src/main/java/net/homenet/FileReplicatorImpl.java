@@ -41,6 +41,8 @@ public class FileReplicatorImpl implements FileReplicator {
     @Override
     public synchronized void replicate() throws IOException {
         File[] files = new File(srcDir).listFiles();
+
+        assert files != null;
         for (File file : files) {
             if (file.isFile()) {
                 fileCopier.copyFile(srcDir, destDir, file.getName());
