@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jmx.export.MBeanExporter;
+import org.springframework.jmx.support.MBeanServerFactoryBean;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -37,12 +38,20 @@ public class FileReplicatorConfiguration {
     }
 
     @Bean
-    public MBeanExporter mBeanExporter(FileReplicator fileReplicator) {
+    public MBeanServerFactoryBean mBeanServerFactoryBean() {
+        MBeanServerFactoryBean mBeanServer = new MBeanServerFactoryBean();
+        mBeanServer.setLocateExistingServerIfPossible(true);
+        return mBeanServer;
+    }
+
+    @Bean
+    public MBeanExporter mBeanExporter(MBeanServerFactoryBean mBeanServer, FileReplicator fileReplicator) {
         Map<String, Object> beanToExport = new HashMap<>();
         beanToExport.put("bean:name=fileReplicator", fileReplicator);
 
         MBeanExporter exporter = new MBeanExporter();
         exporter.setBeans(beanToExport);
+        exporter.setServer(mBeanServer.getObject());
         return exporter;
     }
 
