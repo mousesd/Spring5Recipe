@@ -3,15 +3,21 @@ package net.homenet;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.jmx.export.notification.NotificationPublisher;
+import org.springframework.jmx.export.notification.NotificationPublisherAware;
 
+import javax.management.Notification;
 import java.io.File;
 import java.io.IOException;
 
 @ManagedResource(description = "File replicator")
-public class FileReplicatorImpl implements FileReplicator {
+public class FileReplicatorImpl implements FileReplicator, NotificationPublisherAware {
     private String srcDir;
     private String destDir;
     private FileCopier fileCopier;
+
+    private int num;
+    private NotificationPublisher notificationPublisher;
 
     @Override
     @ManagedAttribute(description = "Get source directory")
@@ -50,6 +56,8 @@ public class FileReplicatorImpl implements FileReplicator {
     @Override
     @ManagedOperation(description = "Replicate files")
     public synchronized void replicate() throws IOException {
+        notificationPublisher.sendNotification(new Notification("replication.start", this, num));
+
         File[] files = new File(srcDir).listFiles();
 
         assert files != null;
@@ -58,5 +66,12 @@ public class FileReplicatorImpl implements FileReplicator {
                 fileCopier.copyFile(srcDir, destDir, file.getName());
             }
         }
+
+        notificationPublisher.sendNotification(new Notification("replication.complete", this, num++));
+    }
+
+    @Override
+    public void setNotificationPublisher(NotificationPublisher notificationPublisher) {
+        this.notificationPublisher = notificationPublisher;
     }
 }
