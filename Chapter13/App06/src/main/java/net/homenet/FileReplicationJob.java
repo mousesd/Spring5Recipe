@@ -1,18 +1,20 @@
 package net.homenet;
 
-import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.io.IOException;
-import java.util.Map;
 
-public class FileReplicationJob implements Job {
+public class FileReplicationJob extends QuartzJobBean {
+    private FileReplicator fileReplicator;
+
+    public void setFileReplicator(FileReplicator fileReplicator) {
+        this.fileReplicator = fileReplicator;
+    }
+
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
-        Map map = context.getJobDetail().getJobDataMap();
-        FileReplicator fileReplicator = (FileReplicator) map.get("fileReplicator");
-
+    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         try {
             fileReplicator.replicate();
         } catch (IOException e) {

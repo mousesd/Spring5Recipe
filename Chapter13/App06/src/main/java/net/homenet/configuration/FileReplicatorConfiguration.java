@@ -1,15 +1,18 @@
 package net.homenet.configuration;
 
-import net.homenet.FileCopier;
-import net.homenet.FileCopierImpl;
-import net.homenet.FileReplicator;
-import net.homenet.FileReplicatorImpl;
+import net.homenet.*;
+import org.quartz.JobDetail;
+import org.quartz.Trigger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.quartz.JobDetailFactoryBean;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.util.Collections;
 
 @SuppressWarnings("Duplicates")
 @Configuration
@@ -32,6 +35,31 @@ public class FileReplicatorConfiguration {
         replicator.setDestDir(destDir);
         replicator.setFileCopier(fileCopier);
         return replicator;
+    }
+
+    @Bean
+    public JobDetailFactoryBean fileReplicatorJob(FileReplicator fileReplicator) {
+        JobDetailFactoryBean fileReplicatorJob = new JobDetailFactoryBean();
+        fileReplicatorJob.setJobClass(FileReplicationJob.class);
+        fileReplicatorJob.setDurability(true);
+        fileReplicatorJob.setJobDataAsMap(Collections.singletonMap("fileReplicator", fileReplicator));
+        return fileReplicatorJob;
+    }
+
+    @Bean
+    public SimpleTriggerFactoryBean fileReplicatorTrigger(JobDetail fileReplicatorJob) {
+        SimpleTriggerFactoryBean fileReplicatorTrigger = new SimpleTriggerFactoryBean();
+        fileReplicatorTrigger.setJobDetail(fileReplicatorJob);
+        fileReplicatorTrigger.setStartDelay(5000);
+        fileReplicatorTrigger.setRepeatInterval(60000);
+        return fileReplicatorTrigger;
+    }
+
+    @Bean
+    public SchedulerFactoryBean fileReplicatorScheduler(Trigger fileReplicatorTrigger) {
+        SchedulerFactoryBean scheduler = new SchedulerFactoryBean();
+        scheduler.setTriggers(fileReplicatorTrigger);
+        return scheduler;
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
