@@ -3,25 +3,21 @@ package net.homenet;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
+import java.util.Objects;
+
 public class SpringMailErrorNotifierImpl implements ErrorNotifier {
     private final MailSender mailSender;
+    private final SimpleMailMessage copyErrorMailMessage;
 
-    public SpringMailErrorNotifierImpl(MailSender mailSender) {
+    public SpringMailErrorNotifierImpl(MailSender mailSender, SimpleMailMessage copyErrorMailMessage) {
         this.mailSender = mailSender;
+        this.copyErrorMailMessage = copyErrorMailMessage;
     }
 
     @Override
     public void notifyCopyError(String srcDir, String destDir, String filename) {
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        message.setFrom("mousesd@gmail.com");
-        message.setTo("mousesd@gmail.com");
-        message.setSubject("File copy error");
-        message.setText("Dear Administrator,\n\n"
-            + "An error occurred when copying the following file:\n"
-            + "Source directory: " + srcDir + "\n"
-            + "Destination directory: " + destDir + "\n"
-            + "Filename: " + filename);
+        SimpleMailMessage message = new SimpleMailMessage(copyErrorMailMessage);
+        message.setText(String.format(Objects.requireNonNull(copyErrorMailMessage.getText()), srcDir, destDir, filename));
         mailSender.send(message);
     }
 }
