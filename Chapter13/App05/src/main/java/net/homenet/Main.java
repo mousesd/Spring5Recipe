@@ -8,6 +8,8 @@ public class Main {
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(MailConfiguration.class);
         ErrorNotifier notifier = context.getBean(ErrorNotifier.class);
-        notifier.notifyCopyError("C:\\Users\\Lee SangDae\\docs", "C:\\Users\\Lee SangDae\\docs_backup", "Spring5Recipes.doc");
+        notifier.notifyCopyError("C:\\Users\\Lee SangDae\\docs"
+            , "C:\\Users\\Lee SangDae\\docs_backup"
+            , "Spring5Recipes.doc");
     }
 }

@@ -8,6 +8,7 @@ import java.util.Properties;
 public class EmailErrorNotifierImpl implements ErrorNotifier {
     @Override
     public void notifyCopyError(String srcDir, String destDir, String filename) {
+        //# Use a JavaMail API
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
