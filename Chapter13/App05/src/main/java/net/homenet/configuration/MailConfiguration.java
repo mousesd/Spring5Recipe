@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
@@ -20,7 +21,7 @@ public class MailConfiguration {
 
     //# 2.Use a Spring's MailSender
     @Bean
-    public MailSender mailSender() {
+    public JavaMailSender mailSender() {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -49,7 +50,7 @@ public class MailConfiguration {
     }
 
     @Bean
-    public ErrorNotifier errorNotifier(MailSender mailSender, SimpleMailMessage copyErrorMailMessage) {
+    public ErrorNotifier errorNotifier(JavaMailSender mailSender, SimpleMailMessage copyErrorMailMessage) {
         return new SpringMailErrorNotifierImpl(mailSender, copyErrorMailMessage);
     }
 }
