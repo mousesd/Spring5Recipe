@@ -16,7 +16,7 @@ public class WeatherConfiguration {
     @Bean
     public RmiServiceExporter rmiServiceExporter(WeatherService weatherService) {
         RmiServiceExporter rmiServiceExporter = new RmiServiceExporter();
-        rmiServiceExporter.setServiceName("Weather Service");
+        rmiServiceExporter.setServiceName("WeatherService");
         rmiServiceExporter.setServiceInterface(WeatherService.class);
         rmiServiceExporter.setService(weatherService);
         return rmiServiceExporter;
