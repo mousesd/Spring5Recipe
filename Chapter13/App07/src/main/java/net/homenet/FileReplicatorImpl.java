@@ -41,7 +41,7 @@ public class FileReplicatorImpl implements FileReplicator {
     }
 
     @Override
-    @Scheduled(fixedDelay = 10 * 1000)
+    //@Scheduled(fixedDelay = 10 * 1000)
     public synchronized void replicate() throws IOException {
         System.out.println("FileReplicatorImpl.replicate()");
         File[] files = new File(srcDir).listFiles();

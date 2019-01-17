@@ -13,6 +13,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -62,5 +63,12 @@ public class FileReplicatorConfiguration implements SchedulingConfigurer {
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.setScheduler(executor());
+        taskRegistrar.addFixedDelayTask(() -> {
+            try {
+                fileReplicator(fileCopier()).replicate();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, 10 * 1000);
     }
 }
