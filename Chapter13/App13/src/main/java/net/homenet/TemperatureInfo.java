@@ -3,7 +3,7 @@ package net.homenet;
 import java.io.Serializable;
 import java.util.Date;
 
-@SuppressWarnings({ "WeakerAccess", "unused" })
+@SuppressWarnings("WeakerAccess")
 public class TemperatureInfo implements Serializable {
     private String city;
     private Date date;
