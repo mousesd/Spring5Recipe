@@ -2,7 +2,7 @@ package net.homenet;
 
 import java.util.Date;
 
-@SuppressWarnings({ "WeakerAccess", "unused" })
+@SuppressWarnings("WeakerAccess")
 public class TemperatureInfo {
     private String city;
     private Date date;

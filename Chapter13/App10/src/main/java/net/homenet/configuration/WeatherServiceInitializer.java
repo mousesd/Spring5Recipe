@@ -10,7 +10,7 @@ public class WeatherServiceInitializer extends AbstractAnnotationConfigDispatche
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{ HessianServerWeatherConfiguration.class };
+        return new Class<?>[]{ HessianServerWeatherConfiguration.class };
     }
 
     @Override
