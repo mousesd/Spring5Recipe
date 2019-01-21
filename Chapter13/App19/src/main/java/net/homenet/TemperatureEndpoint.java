@@ -28,13 +28,13 @@ public class TemperatureEndpoint {
         Map<String, String> namespaceUris = new HashMap<>();
         namespaceUris.put("weather", namespaceUri);
 
-        cityPath = new DefaultXPath("/weather:GetTemperatureRequest/weather:city");
+        cityPath = new DefaultXPath("/weather:GetTemperaturesRequest/weather:city");
         cityPath.setNamespaceURIs(namespaceUris);
-        datePath = new DefaultXPath("/weather:GetTemperatureRequest/weather:date");
+        datePath = new DefaultXPath("/weather:GetTemperaturesRequest/weather:date");
         datePath.setNamespaceURIs(namespaceUris);
     }
 
-    @PayloadRoot(localPart = "GetTemperatureRequest", namespace = namespaceUri)
+    @PayloadRoot(localPart = "GetTemperaturesRequest", namespace = namespaceUri)
     @ResponsePayload
     public Element getTemperature(@RequestPayload Element request) throws ParseException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -47,7 +47,7 @@ public class TemperatureEndpoint {
 
         List<TemperatureInfo> temperatures = weatherService.getTemperators(city, dates);
         Document response = DocumentHelper.createDocument();
-        Element responseElement = response.addElement("GetTemperatureResponse", namespaceUri);
+        Element responseElement = response.addElement("GetTemperaturesResponse", namespaceUri);
         for (TemperatureInfo temperature : temperatures) {
             Element temperatureElement = responseElement.addElement("TemperatureInfo");
             temperatureElement.addAttribute("city", temperature.getCity());
