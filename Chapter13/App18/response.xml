@@ -1,0 +1,17 @@
+<GetTemperaturesResponse xmlns="http://homenet.net">
+    <TemperatureInfo city="Houston" date="2013-12-01">
+        <min>5.0</min>
+        <max>10.0</max>
+        <average>8.0</average>
+    </TemperatureInfo>
+    <TemperatureInfo city="Houston" date="2013-12-08">
+        <min>5.0</min>
+        <max>10.0</max>
+        <average>8.0</average>
+    </TemperatureInfo>
+    <TemperatureInfo city="Houston" date="2013-12-15">
+        <min>5.0</min>
+        <max>10.0</max>
+        <average>8.0</average>
+    </TemperatureInfo>
+</GetTemperaturesResponse>

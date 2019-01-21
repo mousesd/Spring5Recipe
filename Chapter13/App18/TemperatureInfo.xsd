@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://homenet.net" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="GetTeperaturesRequest"/>
+  <xs:complexType name="GetTeperaturesRequestType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="city"/>
+      <xs:element name="date" maxOccurs="5" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="GetTemperaturesResponse"/>
+  <xs:complexType name="TemperatureInfoType">
+    <xs:sequence>
+      <xs:element type="xs:float" name="min"/>
+      <xs:element type="xs:float" name="max"/>
+      <xs:element type="xs:float" name="average"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="city" use="optional"/>
+    <xs:attribute type="xs:date" name="date" use="optional"/>
+  </xs:complexType>
+</xs:schema>
