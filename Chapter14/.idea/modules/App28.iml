@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="App25" external.linked.project.path="$MODULE_DIR$/../../App25" external.root.project.path="$MODULE_DIR$/../../App25" external.system.id="GRADLE" external.system.module.group="App25" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="App28" external.linked.project.path="$MODULE_DIR$/../../App28" external.root.project.path="$MODULE_DIR$/../../App28" external.system.id="GRADLE" external.system.module.group="App28" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
       <configuration>
-        <fileset id="fileset" name="FrontDeskOffice" removed="false">
-          <file>file://$MODULE_DIR$/../../App25/src/main/java/net/homenet/configuration/FrontDeskConfiguration.java</file>
+        <fileset id="fileset" name="FrontDeskConfiguration" removed="false">
+          <file>file://$MODULE_DIR$/../../App28/src/main/java/net/homenet/configuration/FrontDeskConfiguration.java</file>
         </fileset>
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <output url="file://$MODULE_DIR$/../../App25/out/production/classes" />
-    <output-test url="file://$MODULE_DIR$/../../App25/out/test/classes" />
+    <output url="file://$MODULE_DIR$/../../App28/out/production/classes" />
+    <output-test url="file://$MODULE_DIR$/../../App28/out/test/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../App25">
-      <sourceFolder url="file://$MODULE_DIR$/../../App25/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../App25/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../App25/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../App25/src/test/resources" type="java-test-resource" />
-      <excludeFolder url="file://$MODULE_DIR$/../../App25/.gradle" />
-      <excludeFolder url="file://$MODULE_DIR$/../../App25/build" />
-      <excludeFolder url="file://$MODULE_DIR$/../../App25/out" />
+    <content url="file://$MODULE_DIR$/../../App28">
+      <sourceFolder url="file://$MODULE_DIR$/../../App28/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../App28/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../App28/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../App28/src/test/resources" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/../../App28/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../App28/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../App28/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
