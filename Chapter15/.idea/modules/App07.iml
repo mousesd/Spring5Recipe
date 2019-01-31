@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="App06" external.linked.project.path="$MODULE_DIR$/../../App06" external.root.project.path="$MODULE_DIR$/../../App06" external.system.id="GRADLE" external.system.module.group="App06" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="App07" external.linked.project.path="$MODULE_DIR$/../../App07" external.root.project.path="$MODULE_DIR$/../../App07" external.system.id="GRADLE" external.system.module.group="App07" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
       <configuration>
         <fileset id="fileset" name="IntegrationConfiguration" removed="false">
-          <file>file://$MODULE_DIR$/../../App06/src/main/java/net/homenet/IntegrationConfiguration.java</file>
+          <file>file://$MODULE_DIR$/../../App07/src/main/java/net/homenet/IntegrationConfiguration.java</file>
         </fileset>
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <output url="file://$MODULE_DIR$/../../App06/out/production/classes" />
-    <output-test url="file://$MODULE_DIR$/../../App06/out/test/classes" />
+    <output url="file://$MODULE_DIR$/../../App07/out/production/classes" />
+    <output-test url="file://$MODULE_DIR$/../../App07/out/test/classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../App06">
-      <sourceFolder url="file://$MODULE_DIR$/../../App06/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../App06/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../App06/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../App06/src/test/resources" type="java-test-resource" />
-      <excludeFolder url="file://$MODULE_DIR$/../../App06/.gradle" />
-      <excludeFolder url="file://$MODULE_DIR$/../../App06/build" />
-      <excludeFolder url="file://$MODULE_DIR$/../../App06/out" />
+    <content url="file://$MODULE_DIR$/../../App07">
+      <sourceFolder url="file://$MODULE_DIR$/../../App07/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../App07/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../App07/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../App07/src/test/resources" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/../../App07/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../App07/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../App07/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
