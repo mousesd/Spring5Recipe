@@ -11,9 +11,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../Recipe9-05">
       <sourceFolder url="file://$MODULE_DIR$/../../Recipe9-05/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../Recipe9-05/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../Recipe9-05/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../Recipe9-05/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/../../Recipe9-05/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../Recipe9-05/build" />
       <excludeFolder url="file://$MODULE_DIR$/../../Recipe9-05/out" />

@@ -2,11 +2,7 @@
 <module external.linked.project.id="Recipe9-08" external.linked.project.path="$MODULE_DIR$/../../Recipe9-08" external.root.project.path="$MODULE_DIR$/../../Recipe9-08" external.system.id="GRADLE" external.system.module.group="Recipe9-08" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset" name="CourseConfiguration" removed="false">
-          <file>file://$MODULE_DIR$/../../Recipe9-08/src/main/java/net/homenet/configuration/CourseConfiguration.java</file>
-        </fileset>
-      </configuration>
+      <configuration />
     </facet>
   </component>
   <component name="NewModuleRootManager">
@@ -15,7 +11,6 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../Recipe9-08">
       <sourceFolder url="file://$MODULE_DIR$/../../Recipe9-08/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../Recipe9-08/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/../../Recipe9-08/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../Recipe9-08/build" />
       <excludeFolder url="file://$MODULE_DIR$/../../Recipe9-08/out" />

@@ -5,15 +5,12 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../Recipe9-00/out/production/classes" />
     <output-test url="file://$MODULE_DIR$/../../Recipe9-00/out/test/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../Recipe9-00">
       <sourceFolder url="file://$MODULE_DIR$/../../Recipe9-00/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../Recipe9-00/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../Recipe9-00/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../../Recipe9-00/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/../../Recipe9-00/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../Recipe9-00/build" />
       <excludeFolder url="file://$MODULE_DIR$/../../Recipe9-00/out" />
