@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="App02" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="app02" external.system.module.version="0.1" type="JAVA_MODULE" version="4">
+<module external.linked.project.id="App03" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="app03" external.system.module.version="0.1" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
       <configuration />
     </facet>
-    <facet type="web" name="Web Gradle : App02-0.1.war">
+    <facet type="web" name="Web Gradle : App03-0.1.war">
       <configuration>
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
@@ -12,15 +12,15 @@
         </webroots>
         <sourceRoots>
           <root url="file://$MODULE_DIR$/grails-app/controllers" />
-          <root url="file://$MODULE_DIR$/src/main/groovy" />
-          <root url="file://$MODULE_DIR$/grails-app/taglib" />
+          <root url="file://$MODULE_DIR$/grails-app/services" />
+          <root url="file://$MODULE_DIR$/grails-app/conf" />
           <root url="file://$MODULE_DIR$/grails-app/i18n" />
+          <root url="file://$MODULE_DIR$/grails-app/init" />
+          <root url="file://$MODULE_DIR$/src/main/groovy" />
           <root url="file://$MODULE_DIR$/grails-app/views" />
           <root url="file://$MODULE_DIR$/grails-app/domain" />
-          <root url="file://$MODULE_DIR$/grails-app/services" />
-          <root url="file://$MODULE_DIR$/grails-app/init" />
           <root url="file://$MODULE_DIR$/grails-app/utils" />
-          <root url="file://$MODULE_DIR$/grails-app/conf" />
+          <root url="file://$MODULE_DIR$/grails-app/taglib" />
         </sourceRoots>
       </configuration>
     </facet>
