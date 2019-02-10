@@ -108,10 +108,10 @@ public class SocialAppConfiguration extends SocialConfigurerAdapter {
                 environment.getRequiredProperty("facebook.appSecret")));
     }
 
-    @Override
-    public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-        return new JdbcUsersConnectionRepository(dataSource(), connectionFactoryLocator, Encryptors.noOpText());
-    }
+    //@Override
+    //public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
+    //    return new JdbcUsersConnectionRepository(dataSource(), connectionFactoryLocator, Encryptors.noOpText());
+    //}
 
     @Bean
     @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)

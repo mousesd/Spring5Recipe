@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group 'App19'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+ext {
+    springVersion = '5.0.5.RELEASE'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+dependencies {
+    compile "org.springframework:spring-core:${springVersion}"
+    compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework:spring-beans:${springVersion}"
+    compile "org.springframework.ws:spring-ws-core:3.0.0.RELEASE"
+    compile "org.dom4j:dom4j:2.1.0"
+    compile "javax.servlet:javax.servlet-api:4.0.0"
+    compile 'wsdl4j:wsdl4j:1.6.2'
+    compile "org.slf4j:slf4j-simple:1.7.25"
+}

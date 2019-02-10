@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group 'Recipe10-09'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+    springVersion = '5.0.5.RELEASE'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+dependencies {
+    compile "org.springframework:spring-core:${springVersion}"
+    compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework:spring-beans:${springVersion}"
+    compile "org.springframework:spring-jdbc:${springVersion}"
+    compile "org.postgresql:postgresql:42.1.4"
+    compile "org.slf4j:slf4j-simple:1.7.25"
+}

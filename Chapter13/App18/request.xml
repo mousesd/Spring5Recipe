@@ -1,0 +1,6 @@
+<GetTeperaturesRequest xmlns="http://homenet.net">
+    <city>Houston</city>
+    <date>2013-12-01</date>
+    <date>2013-12-08</date>
+    <date>2013-12-15</date>
+</GetTeperaturesRequest>

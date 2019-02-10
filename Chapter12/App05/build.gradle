@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group 'App05'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+    springVersion = '5.0.5.RELEASE'
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+dependencies {
+    compile "org.springframework:spring-core:${springVersion}"
+    compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework:spring-beans:${springVersion}"
+    compile "org.springframework:spring-jdbc:${springVersion}"
+    compile "org.springframework.data:spring-data-neo4j:${springVersion}"
+    compile "org.neo4j:neo4j:3.3.2"
+    compile "org.neo4j:neo4j-ogm-core:3.1.0"
+    compile "org.neo4j:neo4j-ogm-api:3.1.0"
+    compile "org.neo4j:neo4j-ogm-embedded-driver:3.1.0"
+    compile "org.slf4j:slf4j-simple:1.7.25"
+    runtime "org.neo4j:neo4j-ogm-bolt-driver:3.1.2"
+}
