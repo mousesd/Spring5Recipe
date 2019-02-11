@@ -5,14 +5,19 @@ import grails.testing.web.controllers.ControllerUnitTest
 import grails.validation.ValidationException
 import spock.lang.*
 
+import java.time.LocalDateTime
+import java.time.ZoneId
+
 class ReservationControllerSpec extends Specification implements ControllerUnitTest<ReservationController>, DomainUnitTest<Reservation> {
 
     def populateValidParams(params) {
         assert params != null
 
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
-        assert false, "TODO: Provide a populateValidParams() implementation for this generated test suite"
+        def calendar = LocalDateTime.of(2017, 10, 13, 12, 00).atZone(ZoneId.systemDefault()).toInstant()
+        params["countName"] = "Tennis Court #1"
+        params["sportType"] = "Tennis"
+        params["date"] = Date.from(calendar)
+        params["player"] = new Player(name: 'J.Doe', phone: "555-123-4567")
     }
 
     void "Test the index action returns the correct model"() {

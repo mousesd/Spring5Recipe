@@ -10,9 +10,8 @@ class PlayerControllerSpec extends Specification implements ControllerUnitTest<P
     def populateValidParams(params) {
         assert params != null
 
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
-        assert false, "TODO: Provide a populateValidParams() implementation for this generated test suite"
+        params["name"] = "J. Doe"
+        params["phone"] = "555-123-4567"
     }
 
     void "Test the index action returns the correct model"() {

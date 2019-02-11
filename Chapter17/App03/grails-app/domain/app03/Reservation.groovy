@@ -10,9 +10,9 @@ class Reservation {
     static constraints = {
         sportType(inList: ["Tennis", "Soccer"])
         date(validator: {
-            if (it[Calendar.HOUR_OF_DAY] == "SUNDAY" && (it[Calendar.HOUR_OF_DAY] < 8 || it[Calendar.HOUR_OF_DAY] > 2)) {
+            if (it[Calendar.HOUR_OF_DAY] == "SUNDAY" && (it[Calendar.HOUR_OF_DAY] < 8 || it[Calendar.HOUR_OF_DAY] > 22)) {
                 return ['invalid.holidayHour']
-            } else if (it[Calendar.HOUR_OF_DAY] < 8 || it[Calendar.HOUR_OF_DAY] > 21) {
+            } else if (it[Calendar.HOUR_OF_DAY] < 9 || it[Calendar.HOUR_OF_DAY] > 21) {
                 return ['invalid.weekdayHour']
             }
         })
