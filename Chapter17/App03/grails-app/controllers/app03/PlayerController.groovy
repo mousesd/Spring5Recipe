@@ -1,5 +1,6 @@
 package app03
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 
@@ -18,6 +19,7 @@ class PlayerController {
         respond playerService.get(id)
     }
 
+    @Secured(['ROLE_ADMIN'])
     def create() {
         respond new Player(params)
     }
